@@ -2,13 +2,44 @@
 import React from 'react';
 import NavBarWithButtons from './NavBarWithButtons';
 import styles from '../styles/menuAdmin.module.css';
+import Slider from 'react-slick';
+import MenuFutbolNinos from '../assets/MenuFutbolNinos.jpg';
+import MenuJamesNinas from '../assets/MenuJamesNinas.jpg';
+import NinosJames from '../assets/MenuNinosj.jpg';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+
 
 export default function MenuAdmin() {
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        accessibility: false,
+        arrows: true, // Habilita las flechas predeterminadas
+    };
+
     return (
         <>
             <NavBarWithButtons />
             <div className={styles.container}>
-                <div className={styles.leftSection}>
+                <div className={styles.carouselContainer}>
+                    <Slider {...settings}>
+                        <div>
+                            <img src={MenuFutbolNinos} alt="Imagen 1" className={styles.carouselImage} />
+                        </div>
+                        <div>
+                            <img src={MenuJamesNinas} alt="Imagen 2" className={styles.carouselImage} />
+                        </div>
+                        <div>
+                            <img src={NinosJames} alt="Imagen 3" className={styles.carouselImage} />
+                        </div>
+                    </Slider>
                     {/* Aquí podría ir otro contenido */}
                 </div>
                 <div className={styles.rightSection}>

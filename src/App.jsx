@@ -11,8 +11,8 @@ import MenuProf from './components/MenuProf.jsx';
 export default function App() {
     const location = useLocation();
 
-    // Rutas donde no se debe mostrar el NavBar global
     const noNavBarRoutes = ['/menu-admin', '/menu-profe'];
+
 
     return (
         <>
