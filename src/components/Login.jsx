@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import JamesInfo from '../assets/JamesInicio.png';
+=======
+import JamesInfo from '../assets/BecasJames1.jpg';
+>>>>>>> 66d4154aa4dbab79f2da8ba68386c089353e8e20
 import styles from '../styles/Login.module.css';
 
 export default function Login() {
