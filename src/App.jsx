@@ -7,11 +7,12 @@ import Login from './components/Login';
 import Nosotros from './components/Nosotros';
 import MenuAdmin from './components/MenuAdmin.jsx';
 import MenuProf from './components/MenuProf.jsx';
+import AgregarEst from './components/AgregarEst.jsx';
 
 export default function App() {
     const location = useLocation();
 
-    const noNavBarRoutes = ['/menu-admin', '/menu-profe'];
+    const noNavBarRoutes = ['/menu-admin', '/menu-profe','/agregar-est'];
 
 
     return (
@@ -32,6 +33,7 @@ export default function App() {
                 <Route path="/nosotros" element={<Nosotros />} />
                 <Route path="/menu-admin" element={<MenuAdmin />} />
                 <Route path="/menu-profe" element={<MenuProf />} />
+                <Route path="/agregar-est" element={<AgregarEst />} />
             </Routes>
         </>
     );
