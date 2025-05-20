@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import JamesInfo from '../assets/JamesInicio.png';
+import JamesInfo from '../assets/BecasJames1.jpg';
 import styles from '../styles/Login.module.css';
 
 export default function Login() {
