@@ -13,8 +13,9 @@
 }
 
 .form {
-    max-width: 1200px; /* Aumenta el ancho máximo del formulario */
+    max-width: 1200px; /* Ancho máximo del formulario */
     margin: 5% auto; /* Centrado horizontal */
+    margin-left: 8.5rem; /* Desplaza el formulario hacia la derecha */
     background-color: #f0f0f0; /* Fondo gris claro */
     padding: 2rem;
     border-radius: 8px;
@@ -49,7 +50,7 @@ input, select {
 
 .submitButton {
     display: block;
-    width: 100%; /* Botón ocupa todo el ancho */
+    width: 30%; /* Botón ocupa todo el ancho */
     padding: 0.75rem;
     background-color: black; /* Fondo negro */
     color: white; /* Texto blanco */
@@ -59,6 +60,7 @@ input, select {
     border-radius: 4px; /* Bordes redondeados */
     cursor: pointer;
     text-align: center;
+    margin-left: 34%;
 }
 
 .submitButton:hover {
@@ -72,5 +74,9 @@ input, select {
     margin-bottom: 1rem; /* Espaciado inferior */
     font-weight: normal; /* Sin negrilla */
     text-align: center; /* Centrar el texto */
+}
+
+.customTitle {
+    color: #f0f0f0; /* Cambia este color al que desees */
 }
 
