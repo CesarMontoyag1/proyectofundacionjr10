@@ -15,9 +15,31 @@
 
 
 
-.title {
+
+.topRightSubtitle {
+    position: absolute;
+    top: 6rem; /* Ajusta la distancia desde la parte superior */
+    right: 2rem; /* Ajusta la distancia desde la derecha */
     color: black;
-    text-align: center;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
+    text-align: right;
+}
+
+.title {
+    color: #2d9dcf;
+    text-align: left;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-left: -25rem;
+    margin-top: 5rem;
+
+}
+
+.horizontalLine {
+    width: 100%; /* Ocupa todo el ancho */
+    height: 2px; /* Grosor de la línea */
+    background-color: white; /* Color azul */
+    position: relative; /* Asegura que esté por encima */
+    z-index: 1; /* Coloca la línea por encima de otros elementos */
 }
