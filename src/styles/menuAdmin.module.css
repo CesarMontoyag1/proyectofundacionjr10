@@ -1,21 +1,4 @@
 /* src/styles/menuAdmin.module.css */
-.container {
-    display: flex;
-    height: 100vh; /* Ocupa toda la altura de la ventana */
-}
-
-.leftSection {
-    flex: 0.6; /* Ocupa la mitad izquierda */
-    background-color: black; /* Fondo negro */
-}
-.rightSection {
-    flex: 1; /* Ocupa la mitad derecha */
-    background-color: white; /* Fondo blanco */
-}
-
-
-
-
 .topRightSubtitle {
     position: absolute;
     top: 6rem; /* Ajusta la distancia desde la parte superior */
@@ -28,18 +11,185 @@
 
 .title {
     color: #2d9dcf;
-    text-align: left;
+    position: absolute;
+    top: 6rem; /* Ajusta la distancia desde la parte superior */
+    left: 6rem; /* Ajusta la distancia desde la izquierda */
     font-size: 3rem;
     font-weight: bold;
-    margin-left: -25rem;
-    margin-top: 5rem;
+
 
 }
 
 .horizontalLine {
-    width: 100%; /* Ocupa todo el ancho */
+    width: 100%;
     height: 2px; /* Grosor de la línea */
     background-color: white; /* Color azul */
     position: relative; /* Asegura que esté por encima */
     z-index: 1; /* Coloca la línea por encima de otros elementos */
+}
+
+/* src/styles/menuAdmin.module.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+/* Ajusta el contenedor principal */
+.container {
+    display: flex;
+    height: 100vh; /* Asegura que no exceda la altura de la ventana */
+    overflow: hidden; /* Oculta cualquier contenido que desborde */
+}
+/* src/styles/menuAdmin.module.css */
+
+/* Wrapper para desactivar scroll */
+.noScrollPage {
+    height: 100vh;       /* ocupa toda la ventana */
+    overflow: hidden;    /* quita cualquier scroll */
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+/* Ajusta la sección izquierda */
+.leftSection {
+    flex: 0.6;
+    background-color: black;
+    height: 100%; /* Asegura que no exceda la altura del contenedor */
+    overflow: hidden; /* Evita desbordamientos */
+}
+
+/* Ajusta la sección derecha */
+.rightSection {
+    flex: 1;
+    background-color: white;
+    height: 100%; /* Asegura que no exceda la altura del contenedor */
+    overflow: hidden; /* Evita desbordamientos */
+}
+
+
+/* Grid de hexágonos en la sección derecha */
+
+.welcome {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2em;
+    color: #38bdf8;
+    margin: 0;
+}
+
+
+
+/* Grid de hexágonos */
+.hexagonGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 150px);
+    grid-gap: 15px 0;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    top: 100px;       /* ajusta según convenga */
+    left: 300px;       /* ajusta según convenga */
+}
+
+/* Hexágono negro con texto azul */
+.hexagon {
+    width: 170px;
+    height: 145px;
+    background-color: #000;      /* fondo negro */
+    color: #38bdf8;              /* texto azul */
+    clip-path: polygon(
+            25% 0%, 75% 0%,
+            100% 50%, 75% 100%,
+            25% 100%, 0% 50%
+    );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    flex-direction: column;
+    padding: 15px;
+    transition: transform 0.2s;
+}
+
+.hexagon:hover {
+    transform: scale(1.05);
+}
+
+/* Posicionamiento individual */
+.hexagonGrid .hexagon:nth-child(1) {
+    grid-column: 3;
+    grid-row: 1;
+    transform: translateY(1px) translateX(-25px); /* Más cerca en X */
+}
+.hexagonGrid .hexagon:nth-child(2) {
+    grid-column: 2;
+    grid-row: 2;
+    transform: translateY(-85px) translateX(-5px); /* Más cerca en X */
+}
+.hexagonGrid .hexagon:nth-child(3) {
+    grid-column: 3;
+    grid-row: 3;
+    transform: translateY(-172.5px) translateX(-25px);
+}
+.hexagonGrid .hexagon:nth-child(4) {
+    grid-column: 1;
+    grid-row: 3;
+    transform: translateY(-172.5px) translateX(15px); /* Más cerca en X */
+}
+.hexagonGrid .hexagon:nth-child(5) {
+    grid-column: 2;
+    grid-row: 4;
+    transform: translateY(-257.5px) translateX(-5px); /* Más cerca en X */
+}
+.hexagonGrid .hexagon:nth-child(6) {
+    grid-column: 1;
+    grid-row: 5;
+    transform: translateY(-345px) translateX(15px); /* Más cerca en X */
+}
+
+/* Opciones adicionales para los hexágonos */
+.hexagon.agregar,
+.hexagon.editar-eliminar {
+    position: relative;
+}
+
+.agregar-opciones,
+.editar-eliminar-opciones {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
+    transition: opacity 0.3s ease;
+}
+
+.agregar-opciones button,
+.editar-eliminar-opciones button {
+    background-color: transparent;
+    border: none;
+    color: #38bdf8;
+    padding: 10px 20px;
+    margin: 5px 0;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.agregar:hover .agregar-opciones,
+.editar-eliminar:hover .editar-eliminar-opciones {
+    display: flex;
 }
