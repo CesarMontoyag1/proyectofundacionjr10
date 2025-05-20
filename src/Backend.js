@@ -67,6 +67,124 @@ app.post('/login', (req, res) => {
     });
 });
 
+app.get('/obtenerInstituciones', (req, res) => {
+    const sql = `
+        SELECT DISTINCT InstitucionEducativa AS nombre
+        FROM estudiantes
+        WHERE InstitucionEducativa IS NOT NULL AND InstitucionEducativa != ''
+    `;
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error al obtener instituciones:', err);
+            return res.status(500).json({ error: 'Error en la base de datos' });
+        }
+        res.json(results); // [{ nombre: 'IE X' }, { nombre: 'IE Y' }, ...]
+    });
+});
+
+app.post('/obtenerEstudiantesPorInstitucion', (req, res) => {
+    const { institucion, modalidad, dias } = req.body;
+
+    const sql = `
+        SELECT numDoc, tipoDoc, primerNombre, segundoNombre, primerApellido, segundoApellido, modalidad, dias
+        FROM estudiantes
+        WHERE InstitucionEducativa = ? AND modalidad = ? AND dias = ?
+    `;
+
+    db.query(sql, [institucion, modalidad, dias], (err, results) => {
+        if (err) {
+            console.error('Error al obtener estudiantes:', err);
+            return res.status(500).json({ error: 'Error en la base de datos' });
+        }
+        res.json(results);
+    });
+});
+// Ruta para registrar asistencia
+app.post('/registrarAsistencia', (req, res) => {
+    const { fecha, asistencias } = req.body;
+
+    if (!fecha || !Array.isArray(asistencias) || asistencias.length === 0) {
+        return res.status(400).json({ error: 'Datos incompletos' });
+    }
+
+    const sqlAsistencia = `
+        INSERT INTO asistencia (fechaAsistencia, Usuario_numDoc, Usuario_tipoDoc)
+        VALUES (?, ?, ?)
+    `;
+    const asistenciaValues = [fecha, "123456789", "CC"]; // Ajusta los valores de Usuario según corresponda
+
+    db.query(sqlAsistencia, asistenciaValues, (err, result) => {
+        if (err) {
+            console.error('Error al guardar asistencia principal:', err);
+            return res.status(500).json({ error: 'Error al guardar la asistencia principal' });
+        }
+
+        const idAsistencia = result.insertId;
+
+        // Obtener automáticamente la institución desde la tabla estudiantes
+        const valoresHasEstudiante = asistencias.map(item => [
+            idAsistencia,
+            item.numDoc,
+            item.tipoDoc,
+            item.modalidad,
+            item.dias,
+            item.asistio ? 1 : 0
+        ]);
+
+        const sqlHasEstudiante = `
+            INSERT INTO asistencia_has_estudiantes
+            (asistencia_idAsistencia, estudiantes_numDoc, estudiantes_tipoDoc, estudiantes_modalidad, estudiantes_dias, asistio)
+            VALUES ?
+        `;
+
+        db.query(sqlHasEstudiante, [valoresHasEstudiante], (err2) => {
+            if (err2) {
+                console.error('Error al guardar asistencia_has_estudiantes:', err2);
+                return res.status(500).json({ error: 'Error al guardar los registros de asistencia de estudiantes' });
+            }
+            res.json({ mensaje: 'Asistencia registrada correctamente' });
+        });
+    });
+});
+
+app.post('/consultarAsistencia', (req, res) => {
+    const { fecha, institucion, modalidad, dias } = req.body;
+
+    const sql = `
+        SELECT
+            e.numDoc,
+            e.primerNombre,
+            e.segundoNombre,
+            e.primerApellido,
+            e.segundoApellido,
+            e.modalidad,
+            e.dias,
+            ahe.asistio
+        FROM
+            asistencia a
+                JOIN
+            asistencia_has_estudiantes ahe ON a.idAsistencia = ahe.asistencia_idAsistencia
+                JOIN
+            estudiantes e ON ahe.estudiantes_numDoc = e.numDoc
+                AND ahe.estudiantes_tipoDoc = e.tipoDoc
+                AND ahe.estudiantes_modalidad = e.modalidad
+                AND ahe.estudiantes_dias = e.dias
+        WHERE
+            a.fechaAsistencia = ?
+          AND e.InstitucionEducativa = ?
+          AND e.modalidad = ?
+          AND e.dias = ?;
+    `;
+
+    db.query(sql, [fecha, institucion, modalidad, dias], (err, results) => {
+        if (err) {
+            console.error('Error al consultar asistencia:', err);
+            return res.status(500).json({ error: 'Error al consultar asistencia' });
+        }
+        res.json(results);
+    });
+});
+
 app.listen(3000, () => {
     console.log("Servidor corriendo en http://localhost:3000");
 });

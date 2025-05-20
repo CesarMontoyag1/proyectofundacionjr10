@@ -1,8 +1,98 @@
-export default function MenuAdmin() {
+// src/components/MenuProf.jsx
+import React from 'react';
+import NavBarWithButtons from './NavBarWithButtons';
+import styles from '../styles/menuProf.module.css';
+import Slider from 'react-slick';
+import MenuFutbolNinos from '../assets/MenuFutbolNinos.jpg';
+import MenuJamesNinas from '../assets/MenuJamesNinas.jpg';
+import NinosJames from '../assets/MenuNinosj.jpg';
+import jameHospitals from '../assets/JamesHospital.jpg';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+// Flecha personalizada para "Anterior"
+function PrevArrow(props) {
+    const { className, style, onClick } = props;
     return (
-        <div style={{ padding: '2rem', textAlign: 'center', border: '2px solid red', color: 'white' }}>
-            <h1 style={{ color: 'white' }}>MENU ADMINISTRATIVO</h1>
-            <p>acciones admin.</p>
+        <div
+            className={`${className} ${styles.customArrow}`}
+            style={{ ...style, left: '10px', zIndex: 5 }}
+            onClick={onClick}
+        >
+            &#9664; {/* Símbolo de flecha izquierda */}
         </div>
+    );
+}
+
+// Flecha personalizada para "Siguiente"
+function NextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={`${className} ${styles.customArrow}`}
+            style={{ ...style, right: '10px', zIndex: 5 }}
+            onClick={onClick}
+        >
+            &#9654; {/* Símbolo de flecha derecha */}
+        </div>
+    );
+}
+
+export default function MenuProf() {
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 1000,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        accessibility: false,
+        arrows: true, // Habilita las flechas predeterminadas
+        prevArrow: <PrevArrow />, // Usa la flecha personalizada
+        nextArrow: <NextArrow />, // Usa la flecha personalizada
+    };
+
+    return (
+        <>
+            <NavBarWithButtons />
+            <div className={styles.container}>
+                <div className={styles.carouselContainer}>
+                    <div className={styles.carouselBackground}></div> {/* Fondo negro */}
+                    <Slider {...settings}>
+                        <div>
+                            <img src={MenuFutbolNinos} alt="Imagen 1" className={styles.carouselImage} />
+                        </div>
+                        <div>
+                            <img src={MenuJamesNinas} alt="Imagen 2" className={styles.carouselImage} />
+                        </div>
+                        <div>
+                            <img src={NinosJames} alt="Imagen 3" className={styles.carouselImage} />
+                        </div>
+                        <div>
+                            <img src={jameHospitals} alt="Imagen 3" className={styles.carouselImage} />
+                        </div>
+                    </Slider>
+                </div>
+                <div className={styles.rightSection}>
+                    <h1 className={styles.title}>¡Bienvenido!</h1>
+                    <h2 className={styles.topRightSubtitle}>Menú del Profesor</h2>
+                    <div className={styles.hexagonGrid}>
+                        <div className={styles.hexagon} onClick={() => window.location.href = 'visualizarAst.html'}>
+                            VISUALIZAR ASISTENCIA
+                        </div>
+                        <div className={styles.hexagon} onClick={() => window.location.href = 'analisisDatos.html'}>
+                            ANÁLISIS DE DATOS
+                        </div>
+                        <div className={styles.hexagon} onClick={() => window.location.href = 'tomarAsistencia.html'}>
+                            TOMAR ASISTENCIA
+                        </div>
+                        <div className={styles.hexagon} onClick={() => window.location.href = 'visualizarEst.html'}>
+                            VISUALIZAR ESTUDIANTE
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }

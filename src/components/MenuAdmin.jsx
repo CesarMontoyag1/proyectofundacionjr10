@@ -6,6 +6,7 @@ import Slider from 'react-slick';
 import MenuFutbolNinos from '../assets/MenuFutbolNinos.jpg';
 import MenuJamesNinas from '../assets/MenuJamesNinas.jpg';
 import NinosJames from '../assets/MenuNinosj.jpg';
+import jameHospitals from '../assets/JamesHospital.jpg';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -41,7 +42,7 @@ export default function MenuAdmin() {
     const settings = {
         dots: true,
         infinite: true,
-        speed: 500,
+        speed: 1000,
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
@@ -67,6 +68,9 @@ export default function MenuAdmin() {
                         <div>
                             <img src={NinosJames} alt="Imagen 3" className={styles.carouselImage} />
                         </div>
+                        <div>
+                            <img src={jameHospitals} alt="Imagen 3" className={styles.carouselImage} />
+                        </div>
                     </Slider>
                     {/* Aquí podría ir otro contenido */}
                 </div>
@@ -81,13 +85,13 @@ export default function MenuAdmin() {
                                 <button onClick={() => window.location.href = 'editar-eliminarUsuario.html'}>Usuario</button>
                             </div>
                         </div>
-                        <div className={styles.hexagon} onClick={() => window.location.href = 'visualizarAst.html'}>
+                        <div className={styles.hexagon} onClick={() => window.location.href = 'visualizar-Ast'}>
                             VISUALIZAR ASISTENCIA
                         </div>
                         <div className={styles.hexagon} onClick={() => window.location.href = 'analisisDatos.html'}>
                             ANÁLISIS DE DATOS
                         </div>
-                        <div className={styles.hexagon} onClick={() => window.location.href = 'tomarAsistencia.html'}>
+                        <div className={styles.hexagon} onClick={() => window.location.href = '/tomar-Ast'}>
                             TOMAR ASISTENCIA
                         </div>
                         <div className={styles.hexagon} onClick={() => window.location.href = 'visualizarEst.html'}>

@@ -1,0 +1,225 @@
+/* TomarAsis.module.css */
+
+/* --- General Styles --- */
+body {
+    overflow-y: auto; /* Permite scroll vertical */
+    overflow-x: hidden; /* Evita scroll horizontal innecesario */
+}
+.container {
+    background-color: white; /* Ensures the main background is white */
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    color: black;
+    min-height: 100vh; /* Ensure container takes full height */
+}
+
+/* --- Header Styles --- */
+.header {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 10px;
+
+}
+
+.title {
+    color: black; /* Texto negro */
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+
+/* --- Search Container Styles (Remains the same as you liked it) --- */
+.searchContainer {
+    background-color: black; /* Black background for the search bar */
+    border-radius: 15px; /* Rounded corners */
+    padding: 20px;
+    width: 90%; /* Wider than 80% to match the image more closely */
+    max-width: 900px; /* Increased max-width */
+    margin: 40px auto; /* Centered with more top margin */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Distribute items with space around */
+    align-items: flex-end; /* Align items to the bottom */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.searchContainer > div {
+    display: flex;
+    flex-direction: column;
+    width: calc(25% - 20px); /* Approximately 4 columns, adjust as needed */
+    margin-bottom: 15px; /* Space between rows */
+    margin-right: 20px; /* Space between columns */
+}
+
+.searchContainer > div:last-of-type {
+    margin-right: 0; /* No right margin for the last item */
+}
+
+.searchContainer label {
+    color: white; /* White text for labels */
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
+    text-align: center; /* Center the labels */
+}
+
+.searchContainer input[type="date"],
+.searchContainer select {
+    width: 100%;
+    padding: 8px 12px; /* Adjusted padding */
+    border: 1px solid #555; /* Darker border for inputs */
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background-color: #333; /* Darker background for inputs */
+    color: white; /* White text in inputs/selects */
+    -webkit-appearance: none; /* Remove default arrow on select for better styling */
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2C197.6c-4.4%2C4.4-10.8%2C6.9-17.6%2C6.9s-13.2-2.5-17.6-6.9L146.2%2C89.4L44.4%2C191.2c-4.4%2C4.4-10.8%2C6.9-17.6%2C6.9s-13.2-2.5-17.6-6.9c-9.7-9.7-9.7-25.5%2C0-35.2L128.6%2C47.8c9.7-9.7%2C25.5-9.7%2C35.2%2C0L287%2C162.4C296.7%2C172.1%2C296.7%2C187.9%2C287%2C197.6z%22%2F%3E%3C%2Fsvg%3E'); /* Custom dropdown arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 12px auto;
+}
+
+.searchContainer input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Invert color for date picker icon to white */
+}
+
+.searchContainer button {
+    background-color: #38bdf8; /* Blue button for "Buscar" */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    width: auto; /* Allow button to size itself */
+    margin-top: 20px; /* Space above the button */
+    align-self: flex-end; /* Align button to the bottom */
+}
+
+.searchContainer button:hover {
+    background-color: #0056b3;
+}
+
+/* Specific styling for the "Buscar" button's container */
+.searchButtonWrapper {
+    position: relative;
+    left: -7%;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+}
+
+
+
+/* --- Table Styles (Existing, ensure they look good with the new header/search) --- */
+.tableContainer {
+    margin: 30px auto;
+    width: 90%;
+    max-width: 900px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+.tableContainer table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tableContainer th,
+.tableContainer td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.tableContainer th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+.tableContainer tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.tableContainer tr:hover {
+    background-color: #f1f1f1;
+}
+
+.tableContainer button {
+    background-color: #38bdf8;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    display: block;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tableContainer button:hover {
+    background-color: #0056b3;
+}
+
+/* --- Media Queries --- */
+@media (max-width: 768px) {
+    .searchContainer > div {
+        width: calc(50% - 20px); /* Two columns on smaller screens */
+        margin-right: 20px;
+    }
+    .searchContainer > div:nth-child(2n) { /* No right margin for every second item */
+        margin-right: 0;
+    }
+    .searchContainer > div:nth-child(odd):last-child {
+        margin-right: 0;
+    }
+
+    .searchContainer button {
+        width: 100%; /* Full width button on smaller screens */
+        margin-top: 20px;
+    }
+    .searchContainer .searchButtonWrapper {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    /* Adjust header for smaller screens */
+    .header {
+        padding-top: 10px;
+        min-height: auto;
+    }
+    .title {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .searchContainer > div {
+        width: 100%; /* Single column on very small screens */
+        margin-right: 0;
+    }
+    .searchContainer {
+        padding: 15px;
+        margin: 20px auto;
+    }
+    .header {
+        padding: 10px;
+    }
+    .title {
+        font-size: 18px;
+    }
+}
