@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import JamesInfo from '../assets/JamesInicio.png';
+import JamesInfo from '../assets/niñosJames1.jpg';
 import styles from '../styles/Informacion.module.css';
 
 export default function Informacion() {

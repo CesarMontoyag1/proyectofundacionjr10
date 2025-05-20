@@ -20,16 +20,14 @@
 }
 
 .image {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
+    width: 420px; /* Ajusta el tamaño según necesites */
+    height: 420px; /* Asegúrate de que el ancho y alto sean iguales */
+    margin: 20px auto;
     display: block;
-    object-fit: cover;
-    /* Para simular la forma orgánica: */
-    clip-path: path(
-            'M150 0 C225 0 225 150 300 150 C225 150 225 300 150 300 C75 300 75 150 0 150 C75 150 75 0 150 0 Z'
-    );
+    object-fit: cover; /* Ajusta la imagen dentro del contenedor */
+    border-radius: 50%; /* Hace que la imagen sea circular */
 }
+
 
 .text {
     display: flex;
