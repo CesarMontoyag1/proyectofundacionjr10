@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import JamesInfo from '../assets/JamesInicio.png';
 import styles from '../styles/Login.module.css';
 
 export default function Login() {
     const [showPwd, setShowPwd] = useState(false);
+    const navigate = useNavigate(); // Inicializa el hook useNavigate
+
+    const handleLogin = () => {
+        // Aquí puedes agregar lógica de validación si es necesario
+        navigate('/menu-admin'); // Redirige al menú de administrador
+    };
 
     return (
         <div className={styles.container}>
@@ -59,7 +66,12 @@ export default function Login() {
                         </button>
                     </div>
 
-                    <button className={styles.submitBtn}>Iniciar Sesión</button>
+                    <button
+                        className={styles.submitBtn}
+                        onClick={handleLogin} // Llama a la función handleLogin
+                    >
+                        Iniciar Sesión
+                    </button>
                 </div>
 
                 {/* Imagen */}
