@@ -7,12 +7,12 @@
 }
 
 .title {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     color: #38bdf8; /* Azul del Home */
     display: flex;
     align-items: center;
-    margin-left: 16px; /* Mueve el título más a la derecha */
+    margin-left: 100px; /* Mueve el título más a la derecha */
 }
 
 .logo {
