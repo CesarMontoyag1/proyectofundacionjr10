@@ -1,7 +1,13 @@
-h1 {
-    color: white;
+/* src/styles/menuAdmin.module.css */
+.container {
+    background-color: white;
+    min-height: 100vh;
+    padding: 2rem;
 }
 
-p {
-    color: white;
+.title {
+    color: black;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
 }
