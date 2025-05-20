@@ -12,8 +12,8 @@
 .title {
     color: #38bdf8;
     position: absolute;
-    top: 6rem; /* Ajusta la distancia desde la parte superior */
-    left: 50%; /* Ajusta la distancia desde la izquierda */
+    top: 8rem; /* Ajusta la distancia desde la parte superior */
+    left: 45%; /* Ajusta la distancia desde la izquierda */
     font-size: 3rem;
     font-weight: bold;
 
@@ -49,8 +49,10 @@ body {
     width: 100%;
     height: calc(100vh - 5.2rem); /* Asegura que no exceda la altura de la ventana */
     overflow: hidden; /* Oculta cualquier contenido que desborde */
+    background-color: white;
 }
-/* src/styles/menuAdmin.module.css */
+
+
 
 /* Wrapper para desactivar scroll */
 .noScrollPage {
@@ -59,42 +61,33 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 .carouselContainer {
+    position: relative; /* Necesario para posicionar el pseudo-elemento */
     top: 0;
     left: 0;
-    width: 40%; /* Igual al ancho de leftSection */
-    height: calc(100vh - 5.2rem); /* Igual al alto de leftSection */
+    width: 50%; /* Igual al ancho de leftSection */
+    height: 100vh; /* Igual al alto de leftSection */
     z-index: 2; /* Asegura que esté encima */
     overflow: hidden;
+    background-color: white;
+    border-top-right-radius: 50%; /* Redondeo en la esquina superior derecha */
+    border-bottom-right-radius: 50%; /* Redondeo en la esquina inferior derecha */
+
 }
 
 
-.carouselImage {
-    height: 100%;
-}
 
 .carouselImage {
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 5.2rem);
     object-fit: cover;
-}
+    background-color: white;
 
-.carouselImage {
-    width: 100%;
-    height: calc(100vh - 5.2rem);
-    object-fit: cover; /* Asegura que las imágenes se ajusten al contenedor */
 }
 
 
 
-/* Ajusta la sección izquierda */
-.leftSection {
-    position: relative;
-    width: 30%;
-    height: calc(100vh - 5.2rem);
-    background-color: #f0f0f0; /* Color de fondo para referencia */
-    z-index: 1; /* Debajo del carrusel */
-}
 
 .rightSection {
     width: 60%;
@@ -126,14 +119,14 @@ body {
     justify-content: flex-start;
     align-items: center;
     position: relative;
-    top: 100px;       /* ajusta según convenga */
-    left: 300px;       /* ajusta según convenga */
+    top: 60px;       /* ajusta según convenga */
+    left: 160px;       /* ajusta según convenga */
 }
 
 /* Hexágono negro con texto azul */
 .hexagon {
-    width: 170px;
-    height: 145px;
+    width: 200px;
+    height: 175px;
     background-color: #000;      /* fondo negro */
     color: #38bdf8;              /* texto azul */
     clip-path: polygon(
@@ -154,39 +147,44 @@ body {
 }
 
 .hexagon:hover {
-    transform: scale(1.05);
+    background-color: #38bdf8;
+    color: #000;
+    transform:  translateY(-50px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+
 }
 
 /* Posicionamiento individual */
 .hexagonGrid .hexagon:nth-child(1) {
     grid-column: 3;
     grid-row: 1;
-    transform: translateY(1px) translateX(-25px); /* Más cerca en X */
+    transform: translateY(1.2px) translateX(-1px); /* Ajustado proporcionalmente */
 }
 .hexagonGrid .hexagon:nth-child(2) {
     grid-column: 2;
     grid-row: 2;
-    transform: translateY(-85px) translateX(-5px); /* Más cerca en X */
+    transform: translateY(-101px) translateX(-3px); /* Ajustado proporcionalmente */
 }
 .hexagonGrid .hexagon:nth-child(3) {
     grid-column: 3;
     grid-row: 3;
-    transform: translateY(-172.5px) translateX(-25px);
+    transform: translateY(-202px) translateX(-1px) ; /* Ajustado proporcionalmente */
 }
 .hexagonGrid .hexagon:nth-child(4) {
     grid-column: 1;
     grid-row: 3;
-    transform: translateY(-172.5px) translateX(15px); /* Más cerca en X */
+    transform: translateY(-202px) translateX(-5px); /* Ajustado proporcionalmente */
 }
 .hexagonGrid .hexagon:nth-child(5) {
     grid-column: 2;
     grid-row: 4;
-    transform: translateY(-257.5px) translateX(-5px); /* Más cerca en X */
+    transform: translateY(-305px) translateX(-3px); /* Ajustado proporcionalmente */
 }
 .hexagonGrid .hexagon:nth-child(6) {
     grid-column: 1;
     grid-row: 5;
-    transform: translateY(-345px) translateX(15px); /* Más cerca en X */
+    transform: translateY(-406px) translateX(-5px); /* Ajustado proporcionalmente */
 }
 
 /* Opciones adicionales para los hexágonos */
@@ -226,4 +224,15 @@ body {
 .agregar:hover .agregar-opciones,
 .editar-eliminar:hover .editar-eliminar-opciones {
     display: flex;
+}
+
+.customArrow {
+    font-size: 2rem;
+    color: #38bdf8; /* Color azul */
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.customArrow:hover {
+    transform: scale(1.2); /* Efecto de agrandamiento al pasar el mouse */
 }

@@ -9,7 +9,33 @@ import NinosJames from '../assets/MenuNinosj.jpg';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+// Flecha personalizada para "Anterior"
+function PrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={`${className} ${styles.customArrow}`}
+            style={{ ...style, left: '10px', zIndex: 5 }}
+            onClick={onClick}
+        >
+            &#9664; {/* Símbolo de flecha izquierda */}
+        </div>
+    );
+}
 
+// Flecha personalizada para "Siguiente"
+function NextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={`${className} ${styles.customArrow}`}
+            style={{ ...style, right: '10px', zIndex: 5 }}
+            onClick={onClick}
+        >
+            &#9654; {/* Símbolo de flecha derecha */}
+        </div>
+    );
+}
 
 export default function MenuAdmin() {
     const settings = {
@@ -22,6 +48,8 @@ export default function MenuAdmin() {
         autoplaySpeed: 5000,
         accessibility: false,
         arrows: true, // Habilita las flechas predeterminadas
+        prevArrow: <PrevArrow />, // Usa la flecha personalizada
+        nextArrow: <NextArrow />, // Usa la flecha personalizada
     };
 
     return (
