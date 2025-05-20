@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Presentacion from './components/Presentacion';
 import Informacion from './components/Informacion';
@@ -8,11 +8,16 @@ import Nosotros from './components/Nosotros';
 import MenuAdmin from './components/MenuAdmin.jsx';
 import MenuProf from './components/MenuProf.jsx';
 
-
 export default function App() {
+    const location = useLocation();
+
+    // Rutas donde no se debe mostrar el NavBar global
+    const noNavBarRoutes = ['/menu-admin', '/menu-profe'];
+
     return (
         <>
-            <NavBar />
+            {/* Renderiza NavBar solo si la ruta actual no está en noNavBarRoutes */}
+            {!noNavBarRoutes.includes(location.pathname) && <NavBar />}
             <Routes>
                 <Route
                     path="/"

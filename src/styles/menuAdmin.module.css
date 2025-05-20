@@ -1,9 +1,19 @@
 /* src/styles/menuAdmin.module.css */
 .container {
-    background-color: white;
-    min-height: 100vh;
-    padding: 2rem;
+    display: flex;
+    height: 100vh; /* Ocupa toda la altura de la ventana */
 }
+
+.leftSection {
+    flex: 0.6; /* Ocupa la mitad izquierda */
+    background-color: black; /* Fondo negro */
+}
+.rightSection {
+    flex: 1; /* Ocupa la mitad derecha */
+    background-color: white; /* Fondo blanco */
+}
+
+
 
 .title {
     color: black;

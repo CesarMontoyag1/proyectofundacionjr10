@@ -1,0 +1,52 @@
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Espacia los elementos a los extremos */
+    align-items: center;
+    background-color: black;
+    color: white;
+    padding: 1rem 2rem;
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    margin-left: 8px;
+    object-fit: contain;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #38bdf8; /* Azul del Home */
+    display: flex;
+    align-items: center;
+    margin-left: 100px; /* Mueve el título más a la derecha */
+}
+
+.buttonsContainer {
+    display: flex;
+    align-items: center; /* Alinea verticalmente los botones */
+    gap: 1rem; /* Espaciado entre los botones */
+}
+
+.iconButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.icon {
+    font-size: 2rem; /* Tamaño de los íconos */
+    color: white;
+    transition: color 0.3s ease; /* Transición suave para el color */
+}
+
+.iconButton:hover .icon {
+    color: #ccc; /* Cambia el color al pasar el mouse */
+}
