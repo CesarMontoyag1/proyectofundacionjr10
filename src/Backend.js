@@ -12,7 +12,7 @@ const app = express();
 
 // Permitir CORS desde React (por ejemplo, en http://localhost:5173)
 app.use(cors({
-    origin: 'http://localhost:5173', // Asegúrate de poner aquí tu puerto de React
+    origin: 'http://localhost:5175',
     credentials: true
 }));
 
@@ -68,5 +68,5 @@ app.post('/login', (req, res) => {
 });
 
 app.listen(3000, () => {
-    console.log("Servidor corriendo en http://localhost:5173");
+    console.log("Servidor corriendo en http://localhost:3000");
 });

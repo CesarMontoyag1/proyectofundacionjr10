@@ -5,6 +5,9 @@ import Presentacion from './components/Presentacion';
 import Informacion from './components/Informacion';
 import Login from './components/Login';
 import Nosotros from './components/Nosotros';
+import MenuAdmin from './components/MenuAdmin.jsx';
+import MenuProf from './components/MenuProf.jsx';
+
 
 export default function App() {
     return (
@@ -22,6 +25,8 @@ export default function App() {
                 />
                 <Route path="/login" element={<Login />} />
                 <Route path="/nosotros" element={<Nosotros />} />
+                <Route path="/menu-admin" element={<MenuAdmin />} />
+                <Route path="/menu-profe" element={<MenuProf />} />
             </Routes>
         </>
     );
