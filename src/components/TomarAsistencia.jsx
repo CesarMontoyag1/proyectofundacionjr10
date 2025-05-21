@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/TomarAsis.module.css';
 import NavBarWithButtons from './NavBarWithButtons';
+import fondoDepantalla3 from '../assets/fondoblanco.png';
 
 const TomarAsistencia = () => {
     const [instituciones, setInstituciones] = useState([]);
@@ -82,7 +83,15 @@ const TomarAsistencia = () => {
     };
 
     return (
-        <div className={styles.container}>
+        <div
+            className={styles.container}
+            style={{
+                backgroundImage: `url(${fondoDepantalla3})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                color: 'white',
+            }}
+        >
             <NavBarWithButtons />
 
             <header className={styles.header}>

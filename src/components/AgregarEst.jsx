@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NavBarWithButtons from './NavBarWithButtons';
 import styles from '../styles/AgregarEst.module.css';
+import fondoDepantalla from '../assets/fondoblanco.png';
 
 export default function AgregarEst() {
     const [formData, setFormData] = useState({
@@ -136,9 +137,18 @@ export default function AgregarEst() {
 
 
     return (
+
         <>
             <NavBarWithButtons />
-            <div className={styles.container}>
+            <div
+                className={styles.container}
+                style={{
+                    backgroundImage: `url(${fondoDepantalla})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    color: 'white',
+                }}
+            >
                 <h1 className={styles.title}>Agregar Estudiante</h1>
                 <form onSubmit={handleSubmit} className={styles.form}>
                     <div className={styles.column}>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NavBarWithButtons from './NavBarWithButtons';
 import styles from '../styles/AgregarUsu.module.css';
+import fondoDepantalla2 from '../assets/fondoblanco.png';
 
 export default function AgregarUsu() {
     const [formData, setFormData] = useState({
@@ -70,8 +71,15 @@ export default function AgregarUsu() {
     return (
         <>
             <NavBarWithButtons />
-            <div className={styles.container}>
-                <h1 className={styles.title}>Agregar Usuario</h1>
+            <div
+                className={styles.container}
+                style={{
+                    backgroundImage: `url(${fondoDepantalla2})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    color: 'white',
+                }}
+            >     <h1 className={styles.title}>Agregar Usuario</h1>
                 <form onSubmit={handleSubmit} className={styles.form}>
                     <div className={styles.column}>
                         <div className={styles.formGroup}>
