@@ -52,19 +52,19 @@ input, select {
     display: block;
     width: 30%; /* Botón ocupa todo el ancho */
     padding: 0.75rem;
-    background-color: black; /* Fondo negro */
+    background-color: #38bdf8; /* Fondo negro */
     color: white; /* Texto blanco */
     font-size: 1rem;
     font-weight: bold;
     border: none;
-    border-radius: 4px; /* Bordes redondeados */
+    border-radius: 5px; /* Bordes redondeados */
     cursor: pointer;
     text-align: center;
     margin-left: 34%;
 }
 
 .submitButton:hover {
-    background-color: gray; /* Fondo gris al pasar el cursor */
+    background-color: #0056b3; /* Fondo gris al pasar el cursor */
 }
 
 .sectionTitle {

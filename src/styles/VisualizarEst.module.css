@@ -61,7 +61,7 @@ body {
     transition: border-color 0.3s;
 }
 .searchContainer input:focus {
-    border-color: #007bff;
+    border-color: white;
 }
 .searchButtonWrapper {
     display: flex;
