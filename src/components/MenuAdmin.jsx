@@ -81,8 +81,8 @@ export default function MenuAdmin() {
                         <div className={`${styles.hexagon} ${styles["editar-eliminar"]}`}>
                             EDITAR / ELIMINAR
                             <div className={styles["editar-eliminar-opciones"]}>
-                                <button onClick={() => window.location.href = 'editar-eliminarestudiante.html'}>Estudiante</button>
-                                <button onClick={() => window.location.href = 'editar-eliminarUsuario.html'}>Usuario</button>
+                                <button onClick={() => window.location.href = 'editar-eliminarEst'}>Estudiante</button>
+                                <button onClick={() => window.location.href = 'editar-eliminarUsu'}>Usuario</button>
                             </div>
                         </div>
                         <div className={styles.hexagon} onClick={() => window.location.href = 'visualizar-Ast'}>

@@ -292,6 +292,227 @@ app.post('/agregarUsuario', (req, res) => {
     });
 });
 
+/** BUSCAR USUARIO (sólo activos) **/
+app.post('/buscarUsuario', (req, res) => {
+    console.log('buscarUsuario → body recibido:', req.body);
+    const { tipoDocumento, numeroDocumento } = req.body;
+
+    if (!tipoDocumento || !numeroDocumento) {
+        return res
+            .status(400)
+            .json({ success: false, message: 'Faltan datos requeridos' });
+    }
+
+    const query = `
+        SELECT tipoDoc, numDoc, nombre, apellido, username, email, rol
+        FROM usuario
+        WHERE tipoDoc = ? AND numDoc = ? AND activo = 1
+    `;
+    db.query(query, [tipoDocumento, numeroDocumento], (err, results) => {
+        if (err) {
+            console.error('Error en /buscarUsuario:', err);
+            return res
+                .status(500)
+                .json({ success: false, message: 'Error interno del servidor' });
+        }
+        if (results.length === 0) {
+            return res
+                .status(404)
+                .json({ success: false, message: 'Usuario no encontrado' });
+        }
+        res.json({ success: true, usuario: results[0] });
+    });
+});
+
+/** EDITAR USUARIO **/
+app.post('/editarUsuario', (req, res) => {
+    console.log('editarUsuario → body recibido:', req.body);
+    const { numDoc, tipoDoc, nombre, apellido, username, email, rol } = req.body;
+
+    if (!numDoc || !tipoDoc) {
+        return res
+            .status(400)
+            .json({ success: false, message: 'Falta el número/tipo de documento' });
+    }
+
+    const query = `
+        UPDATE usuario
+        SET nombre = ?, apellido = ?, username = ?, email = ?, rol = ?
+        WHERE numDoc = ? AND tipoDoc = ? AND activo = 1
+    `;
+    db.query(
+        query,
+        [nombre, apellido, username, email, rol, numDoc, tipoDoc],
+        (err, results) => {
+            if (err) {
+                console.error('Error en /editarUsuario:', err);
+                return res
+                    .status(500)
+                    .json({ success: false, message: 'Error interno del servidor' });
+            }
+            if (results.affectedRows === 0) {
+                return res
+                    .status(404)
+                    .json({ success: false, message: 'Usuario no encontrado o inactivo' });
+            }
+            res.json({ success: true, message: 'Usuario editado exitosamente' });
+        }
+    );
+});
+
+/** “ELIMINAR” USUARIO → SOFT-DELETE **/
+app.post('/eliminarUsuario', (req, res) => {
+    console.log('eliminarUsuario → body recibido:', req.body);
+    const { numDoc, tipoDoc } = req.body;
+
+    if (!numDoc || !tipoDoc) {
+        return res
+            .status(400)
+            .json({ success: false, message: 'Falta el número/tipo de documento' });
+    }
+
+    const query = `
+        UPDATE usuario
+        SET activo = 0
+        WHERE numDoc = ? AND tipoDoc = ? AND activo = 1
+    `;
+    db.query(query, [numDoc, tipoDoc], (err, results) => {
+        if (err) {
+            console.error('Error en /eliminarUsuario:', err);
+            return res
+                .status(500)
+                .json({ success: false, message: 'Error interno del servidor' });
+        }
+        if (results.affectedRows === 0) {
+            return res
+                .status(404)
+                .json({ success: false, message: 'Usuario no encontrado o ya inactivo' });
+        }
+        res.json({ success: true, message: 'Usuario desactivado exitosamente' });
+    });
+});
+
+// server.js (añade debajo de los endpoints de usuario)
+
+//
+// BUSCAR ESTUDIANTE (sólo activos)
+//
+// … tus imports y configuración de Express/MySQL
+
+/** BUSCAR ESTUDIANTE (pidiendo solo tipoDoc y numDoc) **/
+app.post('/buscarEstudianteed', (req, res) => {
+    console.log('🟢 [buscarEstudiante] req.body:', req.body); // Verifica los datos recibidos
+    const { tipoDoc, numDoc } = req.body;
+
+    if (!tipoDoc || !numDoc) {
+        console.log('🔴 [buscarEstudiante] Faltan tipoDoc o numDoc');
+        return res.status(400).json({ success: false, message: 'Faltan tipoDoc o numDoc' });
+    }
+
+    const query = `
+        SELECT *
+        FROM estudiantes
+        WHERE tipoDoc = ? AND numDoc = ? AND activo = 1
+            LIMIT 1
+    `;
+    db.query(query, [tipoDoc, numDoc], (err, results) => {
+        if (err) {
+            console.error('🔴 [buscarEstudiante] Error en consulta MySQL:', err);
+            return res.status(500).json({ success: false, message: 'Error interno del servidor' });
+        }
+
+        console.log('🟢 [buscarEstudiante] results:', results);
+        if (results.length === 0) {
+            return res.status(404).json({ success: false, message: 'Estudiante no encontrado' });
+        }
+
+        res.json({ success: true, estudiante: results[0] });
+    });
+});
+/** EDITAR ESTUDIANTE **/
+app.post('/editarEstudiante', (req, res) => {
+    console.log('✏️ [editarEstudiante] req.body:', req.body);
+    const {
+        numDoc, tipoDoc,
+        primerNombre, segundoNombre, primerApellido, segundoApellido,
+        genero, fechaNacimiento, estadoCivil, grupoEtnico, factorVulnerabilidad,
+        paisNacimiento, municipioNacimiento, municipioResidencia, direccionResidencia,
+        zonaEstudiante, mundo, modalidad, dias, horarioInicio, horarioFin,
+        codigoDaneIE, subregionIE, municipioIE, InstitucionEducativa, codigoDaneSede,
+        sede, grado, jornada, nit, proveedor
+    } = req.body;
+
+    if (!numDoc || !tipoDoc) {
+        console.log('🔴 [editarEstudiante] Faltan numDoc o tipoDoc');
+        return res.status(400).json({ success: false, message: 'Faltan numDoc o tipoDoc' });
+    }
+
+    const query = `
+        UPDATE estudiantes SET
+                               primerNombre=?, segundoNombre=?, primerApellido=?, segundoApellido=?,
+                               genero=?, fechaNacimiento=?, estadoCivil=?, grupoEtnico=?, factorVulnerabilidad=?,
+                               paisNacimiento=?, municipioNacimiento=?, municipioResidencia=?, direccionResidencia=?,
+                               zonaEstudiante=?, mundo=?, modalidad=?, dias=?, horarioInicio=?, horarioFin=?,
+                               codigoDaneIE=?, subregionIE=?, municipioIE=?, InstitucionEducativa=?, codigoDaneSede=?,
+                               sede=?, grado=?, jornada=?, nit=?, proveedor=?
+        WHERE numDoc=? AND tipoDoc=? AND modalidad=? AND dias=? AND activo = 1
+    `;
+    const params = [
+        primerNombre, segundoNombre, primerApellido, segundoApellido,
+        genero, fechaNacimiento||null, estadoCivil, grupoEtnico, factorVulnerabilidad,
+        paisNacimiento, municipioNacimiento, municipioResidencia, direccionResidencia,
+        zonaEstudiante, mundo, modalidad, dias, horarioInicio||null, horarioFin,
+        codigoDaneIE, subregionIE, municipioIE, InstitucionEducativa, codigoDaneSede,
+        sede, grado, jornada, nit, proveedor,
+        numDoc, tipoDoc, modalidad, dias
+    ];
+
+    console.log('🔵 [editarEstudiante] Ejecutando UPDATE con params:', params);
+    db.query(query, params, (err, results) => {
+        if (err) {
+            console.error('🔴 [editarEstudiante] Error en consulta MySQL:', err);
+            return res.status(500).json({ success: false, message: 'Error interno del servidor' });
+        }
+        console.log('🟢 [editarEstudiante] results:', results);
+        if (results.affectedRows === 0) {
+            console.log('⚪ [editarEstudiante] No se actualizó ningún registro');
+            return res.status(404).json({ success: false, message: 'Estudiante no encontrado o inactivo' });
+        }
+        res.json({ success: true, message: 'Estudiante editado exitosamente' });
+    });
+});
+
+/** “ELIMINAR” ESTUDIANTE → SOFT-DELETE **/
+app.post('/eliminarEstudiante', (req, res) => {
+    console.log('🗑️ [eliminarEstudiante] req.body:', req.body);
+    const { numDoc, tipoDoc, modalidad, dias } = req.body;
+
+    if (!numDoc || !tipoDoc || !modalidad || !dias) {
+        console.log('🔴 [eliminarEstudiante] Faltan datos requeridos');
+        return res.status(400).json({ success: false, message: 'Faltan datos requeridos' });
+    }
+
+    const query = `
+        UPDATE estudiantes
+        SET activo = 0
+        WHERE numDoc=? AND tipoDoc=? AND modalidad=? AND dias=? AND activo=1
+    `;
+    const params = [numDoc, tipoDoc, modalidad, dias];
+
+    console.log('🔵 [eliminarEstudiante] Ejecutando UPDATE SOFT-DELETE con params:', params);
+    db.query(query, params, (err, results) => {
+        if (err) {
+            console.error('🔴 [eliminarEstudiante] Error en consulta MySQL:', err);
+            return res.status(500).json({ success: false, message: 'Error interno del servidor' });
+        }
+        console.log('🟢 [eliminarEstudiante] results:', results);
+        if (results.affectedRows === 0) {
+            console.log('⚪ [eliminarEstudiante] No se actualizó ningún registro');
+            return res.status(404).json({ success: false, message: 'Estudiante no encontrado o ya inactivo' });
+        }
+        res.json({ success: true, message: 'Estudiante desactivado exitosamente' });
+    });
+});
 
 app.listen(3000, () => {
     console.log("Servidor corriendo en http://localhost:3000");

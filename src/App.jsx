@@ -14,12 +14,14 @@ import VisualizarAst from "./components/VisualizarAst.jsx";
 import VisualizarEstudiante from "./components/VisualizarEst.jsx";
 import VisualizarEst from "./components/VisualizarEst.jsx";
 import AgregarUsu from "./components/AgregarUsu.jsx";
-import Editareliminar from "./components/Editareliminar.jsx";
+import EditareliminarUsu from "./components/EditareliminarUsu.jsx";
+import EditareliminarEst from "./components/EditareliminarEst.jsx";
 
 export default function App() {
     const location = useLocation();
 
-    const noNavBarRoutes = ['/menu-admin', '/menu-profe','/agregar-est','/tomar-Ast', '/visualizar-Ast', '/visualizar-est','/agregar-usu','/editar-eliminar' ];
+    const noNavBarRoutes = ['/menu-admin', '/menu-profe','/agregar-est','/tomar-Ast', '/visualizar-Ast',
+        '/visualizar-est','/agregar-usu','/editar-eliminarUsu', '/editar-eliminarEst'];
 
 
     return (
@@ -45,7 +47,9 @@ export default function App() {
                 <Route path="/visualizar-Ast" element={<VisualizarAst />} />
                 <Route path="/visualizar-est" element={<VisualizarEst />} />
                 <Route path="/agregar-usu" element={<AgregarUsu />} />
-                <Route path="/editar-eliminar" element={<Editareliminar />} />
+                <Route path="/editar-eliminarUsu" element={<EditareliminarUsu />} />
+                <Route path="/editar-eliminarEst" element={<EditareliminarEst />} />
+
             </Routes>
         </>
     );
