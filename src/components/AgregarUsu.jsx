@@ -22,9 +22,49 @@ export default function AgregarUsu() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Datos del formulario:', formData);
+
+        try {
+            const response = await fetch('http://localhost:3000/agregarUsuario', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    tipoDocumento: formData.tipoDocumento,
+                    numeroDocumento: formData.numeroDocumento,
+                    nombre: formData.Nombre,
+                    apellidos: formData.Apellido,
+                    username: formData.Usuario,
+                    password: formData.Password,
+                    rol: formData.Rol,
+                    email: formData.email,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Usuario agregado exitosamente');
+                setFormData({
+                    tipoDocumento: '',
+                    numeroDocumento: '',
+                    Nombre: '',
+                    Apellido: '',
+                    Usuario: '',
+                    Password: '',
+                    Rol: '',
+                    email: '',
+                });
+            } else {
+                alert(`Error: ${data.message}`);
+            }
+        } catch (error) {
+            console.error('Error al agregar usuario:', error);
+            alert('Error al agregar usuario');
+        }
     };
 
     return (
@@ -44,10 +84,20 @@ export default function AgregarUsu() {
                                 required
                             >
                                 <option value="">Seleccione</option>
-                                <option value="CC">Cédula de Ciudadanía</option>
-                                <option value="TI">Tarjeta de Identidad</option>
-                                <option value="CE">Cédula de Extranjería</option>
-                                <option value="Otro">Otro</option>
+                                <option value="CC">C.C.</option>
+                                <option value="TI">T.I.</option>
+                                <option value="RC">R.C.</option>
+                                <option value="CE">C.E.</option>
+                                <option value="NUIP">NUIP</option>
+                                <option value="PASAPORTE">PASAPORTE</option>
+                                <option value="NIT">NIT</option>
+                                <option value="CARNE_DIPLOMATICO">CARNE DIPLOMÁTICO</option>
+                                <option value="PEP">PERMISO ESPECIAL DE PERMANENCIA (P.E.P)</option>
+                                <option value="CERTIFICADO_CABILDO">CERTIFICADO CABILDO</option>
+                                <option value="NES">NES</option>
+                                <option value="TMF">TARJETA DE MOVILIDAD FRONTERIZA (TMF)</option>
+                                <option value="VISA">VISA</option>
+                                <option value="ID_EXTRANJEROS">ID EXTRANJEROS DIFERENTE A LA CÉDULA DE EXTRANJERÍA</option>
                             </select>
                         </div>
                         <div className={styles.formGroup}>
@@ -66,8 +116,8 @@ export default function AgregarUsu() {
                             <input
                                 type="text"
                                 id="primerNombre"
-                                name="primerNombre"
-                                value={formData.primerNombre}
+                                name="Nombre"
+                                value={formData.Nombre}
                                 onChange={handleChange}
                                 required
                             />
@@ -77,8 +127,8 @@ export default function AgregarUsu() {
                             <input
                                 type="text"
                                 id="segundoNombre"
-                                name="segundoNombre"
-                                value={formData.segundoNombre}
+                                name="Apellido"
+                                value={formData.Apellido}
                                 onChange={handleChange}
                             />
                         </div>
@@ -89,8 +139,8 @@ export default function AgregarUsu() {
                             <input
                                 type="text"
                                 id="primerApellido"
-                                name="primerApellido"
-                                value={formData.primerApellido}
+                                name="Usuario"
+                                value={formData.Usuario}
                                 onChange={handleChange}
                                 required
                             />
@@ -98,10 +148,10 @@ export default function AgregarUsu() {
                         <div className={styles.formGroup}>
                             <label htmlFor="segundoApellido">Password:</label>
                             <input
-                                type="text"
+                                type="password"
                                 id="segundoApellido"
-                                name="segundoApellido"
-                                value={formData.segundoApellido}
+                                name="Password"
+                                value={formData.Password}
                                 onChange={handleChange}
                             />
                         </div>
@@ -109,23 +159,23 @@ export default function AgregarUsu() {
                             <label htmlFor="estadoCivil">Rol:</label>
                             <select
                                 id="estadoCivil"
-                                name="estadoCivil"
-                                value={formData.estadoCivil}
+                                name="Rol"
+                                value={formData.Rol}
                                 onChange={handleChange}
                                 required
                             >
                                 <option value="">Seleccione una opción</option>
-                                <option value="Administrativo">Administrativo</option>
-                                <option value="Profesor">Profesor</option>
+                                <option value="administrativo">Administrativo</option>
+                                <option value="profesor">Profesor</option>
                             </select>
                         </div>
                         <div className={styles.formGroup}>
                             <label htmlFor="paisNacimiento">Email:</label>
                             <input
-                                type="text"
+                                type="email"
                                 id="paisNacimiento"
-                                name="paisNacimiento"
-                                value={formData.paisNacimiento}
+                                name="email"
+                                value={formData.email}
                                 onChange={handleChange}
                             />
                         </div>

@@ -270,6 +270,27 @@ app.post('/agregarEstudiante', (req, res) => {
     });
 });
 
+app.post('/agregarUsuario', (req, res) => {
+    const {
+        nombre, apellidos, tipoDocumento, numeroDocumento, rol, username, password, email
+    } = req.body;
+
+    const query = `
+        INSERT INTO usuario (
+            numDoc, tipoDoc, username, email, password, rol, nombre, apellido
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    db.query(query, [
+        numeroDocumento, tipoDocumento, username, email, password, rol, nombre, apellidos
+    ], (err, results) => {
+        if (err) {
+            console.error('Error ejecutando la consulta:', err);
+            return res.status(500).json({ success: false, message: 'Error interno del servidor' });
+        }
+        res.json({ success: true, message: 'Usuario agregado exitosamente' });
+    });
+});
 
 
 app.listen(3000, () => {

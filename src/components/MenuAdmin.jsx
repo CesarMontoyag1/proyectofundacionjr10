@@ -101,7 +101,7 @@ export default function MenuAdmin() {
                             AGREGAR
                             <div className={styles["agregar-opciones"]}>
                                 <button onClick={() => window.location.href = 'agregar-est'}>Estudiante</button>
-                                <button onClick={() => window.location.href = 'agregarUsuario.html'}>Usuario</button>
+                                <button onClick={() => window.location.href = 'agregar-usu'}>Usuario</button>
                             </div>
                         </div>
                     </div>
