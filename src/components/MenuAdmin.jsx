@@ -9,6 +9,7 @@ import NinosJames from '../assets/MenuNinosj.jpg';
 import jameHospitals from '../assets/JamesHospital.jpg';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import fondoDepantalla6 from '../assets/fondoblanco.png';
 
 // Flecha personalizada para "Anterior"
 function PrevArrow(props) {
@@ -56,7 +57,15 @@ export default function MenuAdmin() {
     return (
         <>
             <NavBarWithButtons />
-            <div className={styles.container}>
+            <div
+                className={styles.container}
+                style={{
+                    backgroundImage: `url(${fondoDepantalla6})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    color: 'white',
+                }}
+            >
                 <div className={styles.carouselContainer}>
                     <Slider {...settings}>
                         <div>
@@ -88,8 +97,12 @@ export default function MenuAdmin() {
                         <div className={styles.hexagon} onClick={() => window.location.href = 'visualizar-Ast'}>
                             VISUALIZAR ASISTENCIA
                         </div>
-                        <div className={styles.hexagon} onClick={() => window.location.href = 'analisisDatos.html'}>
+                        <div className={`${styles.hexagon} ${styles["analisis-datos"]}`}>
                             ANÁLISIS DE DATOS
+                            <div className={styles["analisis-datos-opciones"]}>
+                                <button onClick={() => window.location.href = 'analisis-general'}>General</button>
+                                <button onClick={() => window.location.href = 'analisis-institucion'}>Por Institución</button>
+                            </div>
                         </div>
                         <div className={styles.hexagon} onClick={() => window.location.href = '/tomar-Ast'}>
                             TOMAR ASISTENCIA
