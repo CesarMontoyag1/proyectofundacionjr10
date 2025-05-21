@@ -11,11 +11,13 @@ import AgregarEst from './components/AgregarEst.jsx';
 import TomarAsis from './components/TomarAsistencia.jsx';
 import TomarAsistencia from "./components/TomarAsistencia.jsx";
 import VisualizarAst from "./components/VisualizarAst.jsx";
+import VisualizarEstudiante from "./components/VisualizarEst.jsx";
+import VisualizarEst from "./components/VisualizarEst.jsx";
 
 export default function App() {
     const location = useLocation();
 
-    const noNavBarRoutes = ['/menu-admin', '/menu-profe','/agregar-est','/tomar-Ast', '/visualizar-Ast'];
+    const noNavBarRoutes = ['/menu-admin', '/menu-profe','/agregar-est','/tomar-Ast', '/visualizar-Ast', '/visualizar-est'];
 
 
     return (
@@ -39,6 +41,7 @@ export default function App() {
                 <Route path="/agregar-est" element={<AgregarEst />} />
                 <Route path="/tomar-Ast" element={<TomarAsistencia />} />
                 <Route path="/visualizar-Ast" element={<VisualizarAst />} />
+                <Route path="/visualizar-est" element={<VisualizarEst />} />
             </Routes>
         </>
     );

@@ -185,6 +185,52 @@ app.post('/consultarAsistencia', (req, res) => {
     });
 });
 
+app.post('/buscarEstudiante', (req, res) => {
+    const { documento } = req.body;
+
+    const estudianteQuery = `
+        SELECT * FROM estudiantes
+        WHERE numDoc = ?
+    `;
+
+    const asistenciaQuery = `
+        SELECT
+            SUM(CASE WHEN asistio = 1 THEN 1 ELSE 0 END) AS asistencias,
+            SUM(CASE WHEN asistio = 0 THEN 1 ELSE 0 END) AS inasistencias
+        FROM asistencia_has_estudiantes
+        WHERE estudiantes_numDoc = ?
+    `;
+
+    db.query(estudianteQuery, [documento], (err, estudianteResults) => {
+        if (err) {
+            console.error('Error al ejecutar la consulta de estudiante:', err);
+            return res.status(500).send('Error interno del servidor');
+        }
+
+        if (estudianteResults.length === 0) {
+            return res.status(404).send('Estudiante no encontrado');
+        }
+
+        db.query(asistenciaQuery, [documento], (err2, asistenciaResults) => {
+            if (err2) {
+                console.error('Error al ejecutar la consulta de asistencias:', err2);
+                return res.status(500).send('Error interno del servidor');
+            }
+
+            const estudiante = estudianteResults[0];
+            const { asistencias = 0, inasistencias = 0 } = asistenciaResults[0];
+
+            // Ahora sí devolvemos JSON
+            res.json({
+                estudiante,
+                asistencias,
+                inasistencias
+            });
+        });
+    });
+});
+
+
 app.listen(3000, () => {
     console.log("Servidor corriendo en http://localhost:3000");
 });

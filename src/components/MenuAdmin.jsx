@@ -94,7 +94,7 @@ export default function MenuAdmin() {
                         <div className={styles.hexagon} onClick={() => window.location.href = '/tomar-Ast'}>
                             TOMAR ASISTENCIA
                         </div>
-                        <div className={styles.hexagon} onClick={() => window.location.href = 'visualizarEst.html'}>
+                        <div className={styles.hexagon} onClick={() => window.location.href = 'visualizar-est'}>
                             VISUALIZAR ESTUDIANTE
                         </div>
                         <div className={`${styles.hexagon} ${styles.agregar}`}>
