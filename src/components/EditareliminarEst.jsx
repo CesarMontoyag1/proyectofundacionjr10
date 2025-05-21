@@ -121,9 +121,9 @@ export default function EditareliminarEstudiante() {
 
           {estuData && (
               <div className={formStyles.formContainer}>
-                {Object.keys(estuData).map((key) => (
-                    <div className={formStyles.formRow} key={key}>
-                      <div>
+                <div className={formStyles.gridContainer}>
+                  {Object.keys(estuData).map((key) => (
+                      <div className={formStyles.gridItem} key={key}>
                         <label htmlFor={key}>{key}</label>
                         {key === 'tipoDoc' || key === 'modalidad' || key === 'dias' || key === 'jornada' ? (
                             <select
@@ -141,22 +141,14 @@ export default function EditareliminarEstudiante() {
                               )}
                               {key === 'modalidad' && (
                                   <>
-                                    <option value="Futbol">Fútbol</option>
-                                    <option value="Volleyball">Volleyball</option>
-                                    <option value="Basketball">Basketball</option>
-                                    <option value="Recreacion">Recreación</option>
+                                    <option value="Fútbol">Fútbol</option>
+                                    <option value="Baloncesto">Baloncesto</option>
                                   </>
                               )}
                               {key === 'dias' && (
                                   <>
-                                    <option value="LU JU">LU JU</option>
-                                    <option value="LU MI">LU MI</option>
                                     <option value="LU VI">LU VI</option>
-                                    <option value="MA JU">MA JU</option>
                                     <option value="MA MI">MA MI</option>
-                                    <option value="MA VI">MA VI</option>
-                                    <option value="MI VI">MI VI</option>
-                                    <option value="SA">SA</option>
                                   </>
                               )}
                               {key === 'jornada' && (
@@ -175,8 +167,8 @@ export default function EditareliminarEstudiante() {
                             />
                         )}
                       </div>
-                    </div>
-                ))}
+                  ))}
+                </div>
                 <div className={formStyles.buttonContainer}>
                   <button
                       className={formStyles.saveButton}
