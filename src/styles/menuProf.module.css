@@ -92,7 +92,7 @@ body {
 .rightSection {
     width: 60%;
     height: 100%;
-    background-color: #ffffff;
+    background-color: transparent;
     padding: 20px;
 }
 

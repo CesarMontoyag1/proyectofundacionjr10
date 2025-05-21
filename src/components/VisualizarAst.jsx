@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/TomarAsis.module.css';
 import NavBarWithButtons from './NavBarWithButtons';
+import fondoDepantalla4 from '../assets/fondoblanco.png';
 
 const VisualizarAst = () => {
     const [instituciones, setInstituciones] = useState([]);
@@ -58,7 +59,15 @@ const VisualizarAst = () => {
     };
 
     return (
-        <div className={styles.container}>
+        <div
+            className={styles.container}
+            style={{
+                backgroundImage: `url(${fondoDepantalla4})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                color: 'white',
+            }}
+        >
             <NavBarWithButtons />
 
             <header className={styles.header}>

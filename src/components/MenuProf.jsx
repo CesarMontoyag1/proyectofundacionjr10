@@ -9,6 +9,7 @@ import NinosJames from '../assets/MenuNinosj.jpg';
 import jameHospitals from '../assets/JamesHospital.jpg';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import fondoDepantalla8 from '../assets/fondoblanco.png';
 
 // Flecha personalizada para "Anterior"
 function PrevArrow(props) {
@@ -56,7 +57,15 @@ export default function MenuProf() {
     return (
         <>
             <NavBarWithButtons />
-            <div className={styles.container}>
+            <div
+                className={styles.container}
+                style={{
+                    backgroundImage: `url(${fondoDepantalla8})`, // Asegúrate de importar la imagen
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    color: 'white',
+                }}
+            >
                 <div className={styles.carouselContainer}>
                     <div className={styles.carouselBackground}></div> {/* Fondo negro */}
                     <Slider {...settings}>

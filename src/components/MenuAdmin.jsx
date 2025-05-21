@@ -1,4 +1,3 @@
-// src/components/MenuAdmin.jsx
 import React from 'react';
 import NavBarWithButtons from './NavBarWithButtons';
 import styles from '../styles/menuAdmin.module.css';
@@ -7,6 +6,7 @@ import MenuFutbolNinos from '../assets/MenuFutbolNinos.jpg';
 import MenuJamesNinas from '../assets/MenuJamesNinas.jpg';
 import NinosJames from '../assets/MenuNinosj.jpg';
 import jameHospitals from '../assets/JamesHospital.jpg';
+import fondoDepantalla6 from '../assets/fondoblanco.png';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -56,7 +56,15 @@ export default function MenuAdmin() {
     return (
         <>
             <NavBarWithButtons />
-            <div className={styles.container}>
+            <div
+                className={styles.container}
+                style={{
+                    backgroundImage: `url(${fondoDepantalla6})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    color: 'white',
+                }}
+            >
                 <div className={styles.carouselContainer}>
                     <Slider {...settings}>
                         <div>
@@ -72,7 +80,6 @@ export default function MenuAdmin() {
                             <img src={jameHospitals} alt="Imagen 3" className={styles.carouselImage} />
                         </div>
                     </Slider>
-                    {/* Aquí podría ir otro contenido */}
                 </div>
                 <div className={styles.rightSection}>
                     <h1 className={styles.title}>¡Bienvenido!</h1>

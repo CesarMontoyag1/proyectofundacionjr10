@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NavBarWithButtons from './NavBarWithButtons';
 import styles from '../styles/VisualizarEst.module.css';
+import fondoDepantalla5 from '../assets/fondoblanco.png';
 
 const VisualizarEst = () => {
     const [documento, setDocumento] = useState('');
@@ -43,7 +44,15 @@ const VisualizarEst = () => {
     };
 
     return (
-        <div className={styles.container}>
+        <div
+            className={styles.container}
+            style={{
+                backgroundImage: `url(${fondoDepantalla5})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                color: 'white',
+            }}
+        >
             <NavBarWithButtons />
 
             <header className={styles.header}>
