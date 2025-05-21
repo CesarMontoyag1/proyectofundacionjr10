@@ -4,25 +4,25 @@ import styles from '../styles/AgregarEst.module.css';
 
 export default function AgregarEst() {
     const [formData, setFormData] = useState({
-        tipoDocumento: '',
+        tipoDocumento: 'CC',
         numeroDocumento: '',
         primerNombre: '',
         segundoNombre: '',
         primerApellido: '',
         segundoApellido: '',
-        genero: '',
+        genero: 'M',
         fechaNacimiento: '',
-        estadoCivil: '',
+        estadoCivil: 'Soltero(a)',
         grupoEtnico: '',
-        factorVulnerabilidad: '',
+        factorVulnerabilidad: 'Víctima del conflicto armado (no desplazado)',
         paisNacimiento: '',
         municipioNacimiento: '',
         municipioResidencia: '',
         direccionResidencia: '',
-        zonaEstudiante: '',
+        zonaEstudiante: 'Rural',
         mundo: '',
-        modalidad: '',
-        dias: '',
+        modalidad: 'Fútbol',
+        dias: 'LU JU',
         horarioInicio: '',
         horarioFin: '',
         codigoDaneIe: '',
@@ -32,7 +32,7 @@ export default function AgregarEst() {
         codigoDaneSede: '',
         sede: '',
         grado: '',
-        jornada: '',
+        jornada: 'AM',
         nit: '',
         proveedor: '',
     });
@@ -45,10 +45,95 @@ export default function AgregarEst() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Datos del formulario:', formData);
+        try {
+            const response = await fetch('http://localhost:3000/agregarEstudiante', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    numDoc: formData.numeroDocumento,
+                    tipoDoc: formData.tipoDocumento,
+                    primerNombre: formData.primerNombre,
+                    segundoNombre: formData.segundoNombre,
+                    primerApellido: formData.primerApellido,
+                    segundoApellido: formData.segundoApellido,
+                    genero: formData.genero,
+                    fechaNacimiento: formData.fechaNacimiento,
+                    estadoCivil: formData.estadoCivil,
+                    grupoEtnico: formData.grupoEtnico,
+                    factorVulnerabilidad: formData.factorVulnerabilidad,
+                    paisNacimiento: formData.paisNacimiento,
+                    municipioNacimiento: formData.municipioNacimiento,
+                    municipioResidencia: formData.municipioResidencia,
+                    direccionResidencia: formData.direccionResidencia,
+                    zonaEstudiante: formData.zonaEstudiante,
+                    mundo: formData.mundo,
+                    modalidad: formData.modalidad,
+                    dias: formData.dias,
+                    horarioInicio: formData.horarioInicio,
+                    horarioFin: formData.horarioFin,
+                    codigoDaneIE: formData.codigoDaneIe,
+                    subregionIE: formData.subregionIe,
+                    municipioIE: formData.municipioIe,
+                    institucionEducativa: formData.institucionEducativa,
+                    codigoDaneSede: formData.codigoDaneSede,
+                    sede: formData.sede,
+                    grado: formData.grado,
+                    jornada: formData.jornada,
+                    nit: formData.nit,
+                    proveedor: formData.proveedor,
+                }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(result.message || 'Estudiante agregado exitosamente');
+                setFormData({
+                    tipoDocumento: '',
+                    numeroDocumento: '',
+                    primerNombre: '',
+                    segundoNombre: '',
+                    primerApellido: '',
+                    segundoApellido: '',
+                    genero: '',
+                    fechaNacimiento: '',
+                    estadoCivil: '',
+                    grupoEtnico: '',
+                    factorVulnerabilidad: '',
+                    paisNacimiento: '',
+                    municipioNacimiento: '',
+                    municipioResidencia: '',
+                    direccionResidencia: '',
+                    zonaEstudiante: '',
+                    mundo: '',
+                    modalidad: '',
+                    dias: '',
+                    horarioInicio: '',
+                    horarioFin: '',
+                    codigoDaneIe: '',
+                    subregionIe: '',
+                    municipioIe: '',
+                    institucionEducativa: '',
+                    codigoDaneSede: '',
+                    sede: '',
+                    grado: '',
+                    jornada: '',
+                    nit: '',
+                    proveedor: '',
+                });
+            } else {
+                alert(result.message || 'Error al agregar el estudiante');
+            }
+        } catch (error) {
+            console.error('Error al enviar los datos:', error);
+            alert('Error al conectar con el servidor');
+        }
     };
+
+
 
     return (
         <>
@@ -68,11 +153,20 @@ export default function AgregarEst() {
                                 onChange={handleChange}
                                 required
                             >
-                                <option value="">Seleccione</option>
-                                <option value="CC">Cédula de Ciudadanía</option>
-                                <option value="TI">Tarjeta de Identidad</option>
-                                <option value="CE">Cédula de Extranjería</option>
-                                <option value="Otro">Otro</option>
+                                <option value="CC">C.C.</option>
+                                <option value="TI">T.I.</option>
+                                <option value="RC">R.C.</option>
+                                <option value="CE">C.E.</option>
+                                <option value="NUIP">NUIP</option>
+                                <option value="PASAPORTE">PASAPORTE</option>
+                                <option value="NIT">NIT</option>
+                                <option value="CARNE_DIPLOMATICO">CARNE DIPLOMÁTICO</option>
+                                <option value="PEP">PERMISO ESPECIAL DE PERMANENCIA (P.E.P)</option>
+                                <option value="CERTIFICADO_CABILDO">CERTIFICADO CABILDO</option>
+                                <option value="NES">NES</option>
+                                <option value="TMF">TARJETA DE MOVILIDAD FRONTERIZA (TMF)</option>
+                                <option value="VISA">VISA</option>
+                                <option value="ID_EXTRANJEROS">ID EXTRANJEROS DIFERENTE A LA CÉDULA DE EXTRANJERÍA</option>
                             </select>
                         </div>
                         <div className={styles.formGroup}>
@@ -137,10 +231,9 @@ export default function AgregarEst() {
                                 onChange={handleChange}
                                 required
                             >
-                                <option value="">Seleccione</option>
-                                <option value="Masculino">Masculino</option>
-                                <option value="Femenino">Femenino</option>
-                                <option value="Otro">Otro</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                                <option value="O">Otro</option>
                             </select>
                         </div>
                         <div className={styles.formGroup}>
@@ -175,11 +268,10 @@ export default function AgregarEst() {
                                 onChange={handleChange}
                                 required
                             >
-                                <option value="">Seleccione una opción</option>
-                                <option value="voleibol">Voleibol</option>
-                                <option value="basquetbol">Básquetbol</option>
-                                <option value="futbol">Fútbol</option>
-                                <option value="recreacion">Recreación</option>
+                                <option value="Futbol">Fútbol</option>
+                                <option value="Volleyball">Volleyball</option>
+                                <option value="Basketball">Basketball</option>
+                                <option value="Recreacion">Recreación</option>
                             </select>
                         </div>
                         <div className={styles.formGroup}>
@@ -191,14 +283,14 @@ export default function AgregarEst() {
                                 onChange={handleChange}
                                 required
                             >
-                                <option value="">Seleccione una opción</option>
-                                <option value="Lunes-Miercoles">Lunes-Miércoles</option>
-                                <option value="Lunes-Jueves">Lunes-Jueves</option>
-                                <option value="Lunes-Viernes">Lunes-Viernes</option>
-                                <option value="Martes-Miercoles">Martes-Miércoles</option>
-                                <option value="Martes-Jueves">Martes-Jueves</option>
-                                <option value="Miercoles-Viernes">Miércoles-Viernes</option>
-                                <option value="Sabado">Sábado</option>
+                                <option value="LU JU">LU JU</option>
+                                <option value="LU MI">LU MI</option>
+                                <option value="LU VI">LU VI</option>
+                                <option value="MA JU">MA JU</option>
+                                <option value="MA MI">MA MI</option>
+                                <option value="MA VI">MA VI</option>
+                                <option value="MI VI">MI VI</option>
+                                <option value="SA">SA</option>
                             </select>
                         </div>
                         <div className={styles.formGroup}>
@@ -254,7 +346,6 @@ export default function AgregarEst() {
                                 onChange={handleChange}
                                 required
                             >
-                                <option value="">Seleccione una opción</option>
                                 <option value="Soltero(a)">Soltero(a)</option>
                                 <option value="Casado(a)">Casado(a)</option>
                                 <option value="Divorciado(a)">Divorciado(a)</option>
@@ -282,7 +373,6 @@ export default function AgregarEst() {
                                 onChange={handleChange}
                                 required
                             >
-                                <option value="">Seleccione una opción</option>
                                 <option value="Víctima del conflicto armado (no desplazado)">Víctima del conflicto armado (no desplazado)</option>
                                 <option value="Desplazado">Desplazado</option>
                                 <option value="Hijo (as) de madres cabeza de familia">Hijo (as) de madres cabeza de familia</option>
@@ -339,7 +429,6 @@ export default function AgregarEst() {
                                 onChange={handleChange}
                                 required
                             >
-                                <option value="">Seleccione una opción</option>
                                 <option value="Rural">Rural</option>
                                 <option value="Urbana">Urbana</option>
                             </select>
@@ -424,7 +513,6 @@ export default function AgregarEst() {
                                 onChange={handleChange}
                                 required
                             >
-                                <option value="">Seleccione una opción</option>
                                 <option value="AM">AM</option>
                                 <option value="PM">PM</option>
                             </select>

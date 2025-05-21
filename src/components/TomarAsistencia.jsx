@@ -122,6 +122,7 @@ const TomarAsistencia = () => {
                 <div>
                     <label htmlFor="dias">Días</label>
                     <select id="dias" value={formData.dias} onChange={handleInputChange}>
+                        <option value="">Seleccionar Días</option>
                         <option value="LU JU">LU JU</option>
                         <option value="LU MI">LU MI</option>
                         <option value="LU VI">LU VI</option>

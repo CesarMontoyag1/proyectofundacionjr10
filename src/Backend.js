@@ -230,6 +230,47 @@ app.post('/buscarEstudiante', (req, res) => {
     });
 });
 
+app.post('/agregarEstudiante', (req, res) => {
+    const {
+        numDoc, tipoDoc, primerNombre, segundoNombre, primerApellido, segundoApellido,
+        genero, fechaNacimiento, estadoCivil, grupoEtnico, factorVulnerabilidad,
+        paisNacimiento, municipioNacimiento, municipioResidencia, direccionResidencia,
+        zonaEstudiante, mundo, modalidad, dias, horarioInicio, horarioFin,
+        codigoDaneIE, subregionIE, municipioIE, institucionEducativa, codigoDaneSede,
+        sede, grado, jornada, nit, proveedor,
+    } = req.body;
+
+    console.log('Datos recibidos:', req.body);
+
+    const query = `
+        INSERT INTO estudiantes (
+            numDoc, tipoDoc, primerNombre, segundoNombre, primerApellido, segundoApellido,
+            genero, fechaNacimiento, estadoCivil, grupoEtnico, factorVulnerabilidad,
+            paisNacimiento, municipioNacimiento, municipioResidencia, direccionResidencia,
+            zonaEstudiante, mundo, modalidad, dias, horarioInicio, horarioFin,
+            codigoDaneIE, subregionIE, municipioIE, institucionEducativa, codigoDaneSede,
+            sede, grado, jornada, nit, proveedor
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    db.query(query, [
+        numDoc, tipoDoc, primerNombre, segundoNombre, primerApellido, segundoApellido,
+        genero, fechaNacimiento, estadoCivil, grupoEtnico, factorVulnerabilidad,
+        paisNacimiento, municipioNacimiento, municipioResidencia, direccionResidencia,
+        zonaEstudiante, mundo, modalidad, dias, horarioInicio, horarioFin,
+        codigoDaneIE, subregionIE, municipioIE, institucionEducativa, codigoDaneSede,
+        sede, grado, jornada, nit, proveedor,
+    ], (err, results) => {
+        if (err) {
+            console.error('Error al ejecutar la consulta:', err);
+            return res.status(500).json({ success: false, message: 'Error interno del servidor' });
+        }
+        console.log('Consulta ejecutada con éxito. Resultados:', results);
+        res.json({ success: true, message: 'Estudiante agregado exitosamente' });
+    });
+});
+
+
 
 app.listen(3000, () => {
     console.log("Servidor corriendo en http://localhost:3000");
