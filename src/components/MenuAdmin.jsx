@@ -100,7 +100,7 @@ export default function MenuAdmin() {
                         <div className={`${styles.hexagon} ${styles.agregar}`}>
                             AGREGAR
                             <div className={styles["agregar-opciones"]}>
-                                <button onClick={() => window.location.href = 'agregarEstudiante.html'}>Estudiante</button>
+                                <button onClick={() => window.location.href = 'agregar-est'}>Estudiante</button>
                                 <button onClick={() => window.location.href = 'agregarUsuario.html'}>Usuario</button>
                             </div>
                         </div>
