@@ -16,11 +16,11 @@ function PrevArrow(props) {
     const { className, style, onClick } = props;
     return (
         <div
-            className={`${className} ${styles.customArrow}`}
-            style={{ ...style, left: '10px', zIndex: 5 }}
+            className={`${className} ${styles.customArrow} ${styles.prevArrow}`}
+            style={{ ...style, left: '20px', zIndex: 5 }}
             onClick={onClick}
         >
-            &#9664; {/* Símbolo de flecha izquierda */}
+            &#10094; {/* Símbolo de flecha izquierda moderno */}
         </div>
     );
 }
@@ -30,11 +30,11 @@ function NextArrow(props) {
     const { className, style, onClick } = props;
     return (
         <div
-            className={`${className} ${styles.customArrow}`}
-            style={{ ...style, right: '10px', zIndex: 5 }}
+            className={`${className} ${styles.customArrow} ${styles.nextArrow}`}
+            style={{ ...style, right: '20px', zIndex: 5 }}
             onClick={onClick}
         >
-            &#9654; {/* Símbolo de flecha derecha */}
+            &#10095; {/* Símbolo de flecha derecha moderno */}
         </div>
     );
 }
@@ -47,11 +47,14 @@ export default function MenuProf() {
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 5000,
-        accessibility: false,
-        arrows: true, // Habilita las flechas predeterminadas
-        prevArrow: <PrevArrow />, // Usa la flecha personalizada
-        nextArrow: <NextArrow />, // Usa la flecha personalizada
+        autoplaySpeed: 4000,
+        accessibility: true,
+        arrows: true,
+        prevArrow: <PrevArrow />,
+        nextArrow: <NextArrow />,
+        fade: true,
+        cssEase: 'ease-in-out',
+        pauseOnHover: true,
     };
 
     return (
@@ -60,14 +63,13 @@ export default function MenuProf() {
             <div
                 className={styles.container}
                 style={{
-                    backgroundImage: `url(${fondoDepantalla8})`, // Asegúrate de importar la imagen
+                    backgroundImage: `url(${fondoDepantalla8})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     color: 'white',
                 }}
             >
                 <div className={styles.carouselContainer}>
-                    <div className={styles.carouselBackground}></div> {/* Fondo negro */}
                     <Slider {...settings}>
                         <div>
                             <img src={MenuFutbolNinos} alt="Imagen 1" className={styles.carouselImage} />
@@ -87,16 +89,20 @@ export default function MenuProf() {
                     <h1 className={styles.title}>¡Bienvenido!</h1>
                     <h2 className={styles.topRightSubtitle}>Menú del Profesor</h2>
                     <div className={styles.hexagonGrid}>
-                        <div className={styles.hexagon} onClick={() => window.location.href = 'visualizarAst.html'}>
+                        <div className={styles.hexagon} onClick={() => window.location.href = 'visualizar-Ast'}>
                             VISUALIZAR ASISTENCIA
                         </div>
-                        <div className={styles.hexagon} onClick={() => window.location.href = 'analisisDatos.html'}>
+                        <div className={`${styles.hexagon} ${styles["analisis-datos"]}`}>
                             ANÁLISIS DE DATOS
+                            <div className={styles["analisis-datos-opciones"]}>
+                                <button onClick={() => window.location.href = 'analisis-general'}>General</button>
+                                <button onClick={() => window.location.href = 'analisis-institucion'}>Por Institución</button>
+                            </div>
                         </div>
-                        <div className={styles.hexagon} onClick={() => window.location.href = 'tomarAsistencia.html'}>
+                        <div className={styles.hexagon} onClick={() => window.location.href = 'tomar-Ast'}>
                             TOMAR ASISTENCIA
                         </div>
-                        <div className={styles.hexagon} onClick={() => window.location.href = 'visualizarEst.html'}>
+                        <div className={styles.hexagon} onClick={() => window.location.href = 'visualizar-est'}>
                             VISUALIZAR ESTUDIANTE
                         </div>
                     </div>

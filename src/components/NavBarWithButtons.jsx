@@ -1,5 +1,6 @@
+// components/NavBarWithButtons.jsx
 import React from 'react';
-import { FaBell, FaUser } from 'react-icons/fa';
+import { FaBell } from 'react-icons/fa';
 import styles from '../styles/NavBarWithButtons.module.css';
 import LogoBaseKids from '../assets/LogoBaseKids.png';
 
@@ -17,11 +18,15 @@ export default function NavBarWithButtons() {
                 </h1>
             </div>
             <div className={styles.buttonsContainer}>
-                <button className={styles.iconButton} aria-label="Notificaciones">
-                    <FaBell className={styles.icon} />
+                {/* Aquí está el botón de Menú modificado */}
+                <button className={styles.menuTextButton}>
+                    Menú
                 </button>
-                <button className={styles.iconButton} aria-label="Usuario">
-                    <FaUser className={styles.icon} />
+                <button className={styles.notificationButton} aria-label="Notificaciones">
+                    <FaBell className={styles.notificationIcon} />
+                </button>
+                <button className={styles.userButton}>
+                    Usuario
                 </button>
             </div>
         </nav>
