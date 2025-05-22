@@ -1,3 +1,4 @@
+// components/Login.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import JamesInfo from '../assets/BecasJames1.jpg';
@@ -20,6 +21,13 @@ export default function Login() {
             const data = await response.json();
 
             if (data.success) {
+                // Guardamos en localStorage el usuario activo
+                localStorage.setItem('user', JSON.stringify({
+                    nombre: data.nombre,  // asegúrate que backend también envíe el nombre
+                    rol: data.rol
+                }));
+
+                // Redirigimos según rol
                 if (data.rol === 'administrativo') {
                     navigate('/menu-admin');
                 } else if (data.rol === 'profesor') {
