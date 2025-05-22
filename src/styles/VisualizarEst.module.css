@@ -89,6 +89,7 @@ body {
     margin: 30px auto;
     width: 90%;
     max-width: 900px;
+    color: black;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

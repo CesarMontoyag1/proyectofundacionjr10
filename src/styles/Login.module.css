@@ -51,6 +51,7 @@ body {
 .label {
     font-size: 2rem; /* Tamaño de letra ajustado */
     font-weight: 600;
+    color: white;
     margin-left: -100px;
     width: 100%;
     max-width: 300px; /* Alinear con el input */
