@@ -483,35 +483,243 @@ app.post('/editarEstudiante', (req, res) => {
 });
 
 /** “ELIMINAR” ESTUDIANTE → SOFT-DELETE **/
-app.post('/eliminarEstudiante', (req, res) => {
-    console.log('🗑️ [eliminarEstudiante] req.body:', req.body);
-    const { numDoc, tipoDoc, modalidad, dias } = req.body;
+// Endpoint para obtener asistencias por modalidad (ya existente)
+app.post('/obtenerAsistenciasPorModalidad', (req, res) => {
+    const { fechaInicio, fechaFin } = req.body;
 
-    if (!numDoc || !tipoDoc || !modalidad || !dias) {
-        console.log('🔴 [eliminarEstudiante] Faltan datos requeridos');
-        return res.status(400).json({ success: false, message: 'Faltan datos requeridos' });
+    if (!fechaInicio || !fechaFin) {
+        return res.status(400).json({ error: 'Faltan las fechas de inicio y fin' });
     }
 
     const query = `
-        UPDATE estudiantes
-        SET activo = 0
-        WHERE numDoc=? AND tipoDoc=? AND modalidad=? AND dias=? AND activo=1
+        SELECT
+            e.modalidad,
+            COUNT(ahe.asistio) AS total,
+            SUM(CASE WHEN ahe.asistio = 1 THEN 1 ELSE 0 END) AS asistencias
+        FROM
+            asistencia a
+                JOIN
+            asistencia_has_estudiantes ahe ON a.idAsistencia = ahe.asistencia_idAsistencia
+                JOIN
+            estudiantes e ON ahe.estudiantes_numDoc = e.numDoc
+        WHERE
+            a.fechaAsistencia BETWEEN ? AND ?
+        GROUP BY
+            e.modalidad
     `;
-    const params = [numDoc, tipoDoc, modalidad, dias];
 
-    console.log('🔵 [eliminarEstudiante] Ejecutando UPDATE SOFT-DELETE con params:', params);
-    db.query(query, params, (err, results) => {
+    db.query(query, [fechaInicio, fechaFin], (err, results) => {
         if (err) {
-            console.error('🔴 [eliminarEstudiante] Error en consulta MySQL:', err);
-            return res.status(500).json({ success: false, message: 'Error interno del servidor' });
+            console.error('Error al obtener asistencias:', err);
+            return res.status(500).json({ error: 'Error en la base de datos' });
         }
-        console.log('🟢 [eliminarEstudiante] results:', results);
-        if (results.affectedRows === 0) {
-            console.log('⚪ [eliminarEstudiante] No se actualizó ningún registro');
-            return res.status(404).json({ success: false, message: 'Estudiante no encontrado o ya inactivo' });
-        }
-        res.json({ success: true, message: 'Estudiante desactivado exitosamente' });
+
+        const data = results.map(row => ({
+            modalidad: row.modalidad,
+            porcentaje: parseFloat(((row.asistencias / row.total) * 100).toFixed(2)), // Convertir a número
+        }));
+
+        res.json(data);
     });
+});
+
+// NUEVO Endpoint para analizar datos con la API de Gemini
+// Endpoint para analizar datos con la API de Gemini
+app.post('/analyzeAttendance', async (req, res) => {
+    const { attendanceData } = req.body;
+
+    if (!attendanceData || attendanceData.length === 0) {
+        return res.status(400).json({ error: 'No se proporcionaron datos de asistencia para analizar.' });
+    }
+
+    const prompt = `Analiza los siguientes datos de asistencia a modalidades, donde cada objeto contiene 'modalidad' y 'porcentaje' de asistencia.
+    Identifica las 3 modalidades con mejor asistencia y proporciona sugerencias específicas y accionables (al menos 3 por modalidad) para mejorar la asistencia en las modalidades con porcentajes bajos.
+    Las sugerencias deben estar enfocadas en cómo los niños pueden mejorar sus asistencias.
+    Los datos son: ${JSON.stringify(attendanceData)}.`;
+
+    // ** ¡IMPORTANTE! Reemplaza "TU_CLAVE_API_DE_GEMINI_AQUI" con tu clave API real y válida. **
+    // Considera usar variables de entorno (dotenv) para mayor seguridad en un entorno de producción.
+    const apiKey = "AIzaSyC8v4TgJqbiI9CRPo7uuDWScCu6I2Z0qT8"; // <--- ¡VERIFICA ESTA CLAVE!
+
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    console.log('Intentando llamar a la API de Gemini...');
+    console.log('URL de la API:', apiUrl);
+    console.log('Payload enviado a Gemini:', JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }] }, null, 2));
+
+    try {
+        const payload = {
+            contents: [{ role: "user", parts: [{ text: prompt }] }]
+        };
+
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error en la llamada a la API de Gemini:');
+            console.error('Código de estado:', response.status);
+            console.error('Mensaje de estado:', response.statusText);
+            console.error('Cuerpo de la respuesta de error:', errorText);
+            throw new Error(`Error al analizar datos con Gemini: ${response.statusText}. Detalles: ${errorText}`);
+        }
+
+        const result = await response.json();
+
+        if (result.candidates && result.candidates.length > 0 &&
+            result.candidates[0].content && result.candidates[0].content.parts &&
+            result.candidates[0].content.parts.length > 0) {
+            const analysisText = result.candidates[0].content.parts[0].text;
+            res.json({ analysis: analysisText });
+        } else {
+            console.warn('Respuesta inesperada de la API de Gemini:', result);
+            res.json({ analysis: 'No se pudo generar un análisis detallado.' });
+        }
+
+    } catch (error) {
+        console.error('Error al procesar la solicitud de análisis:', error);
+        res.status(500).json({ error: `Error interno del servidor al analizar datos: ${error.message}` });
+    }
+});
+
+// NUEVO ENDPOINT: Para obtener asistencias por modalidad FILTRADO POR INSTITUCIÓN
+// Este endpoint es llamado por AnalisisporInsti.jsx
+app.post('/obtenerAsistenciasPorModalidadInsti', (req, res) => {
+    // ¡CORRECCIÓN CLAVE AQUÍ! Asegurarse de que 'institucion' se reciba del body
+    const { fechaInicio, fechaFin, institucion } = req.body;
+
+    console.log('[/obtenerAsistenciasPorModalidadInsti] Recibida solicitud con:');
+    console.log('  Fecha Inicio:', fechaInicio);
+    console.log('  Fecha Fin:', fechaFin);
+    console.log('  Institucion:', institucion); // Verifica que esto muestre el valor correcto
+
+    if (!fechaInicio || !fechaFin || !institucion) { // La institución ahora es obligatoria para este endpoint
+        return res.status(400).json({ error: 'Faltan las fechas de inicio, fin o la institución.' });
+    }
+
+    let query = `
+        SELECT
+            e.modalidad,
+            COUNT(ahe.asistio) AS total,
+            SUM(CASE WHEN ahe.asistio = 1 THEN 1 ELSE 0 END) AS asistencias
+        FROM
+            asistencia a
+        JOIN
+            asistencia_has_estudiantes ahe ON a.idAsistencia = ahe.asistencia_idAsistencia
+        JOIN
+            estudiantes e ON ahe.estudiantes_numDoc = e.numDoc
+        WHERE
+            a.fechaAsistencia BETWEEN ? AND ?
+            AND e.InstitucionEducativa = ?
+        GROUP BY
+            e.modalidad
+    `;
+    const queryParams = [fechaInicio, fechaFin, institucion];
+
+
+    console.log('[/obtenerAsistenciasPorModalidadInsti] Consulta SQL a ejecutar:', query);
+    console.log('[/obtenerAsistenciasPorModalidadInsti] Parámetros de consulta:', queryParams);
+
+    db.query(query, queryParams, (err, results) => {
+        if (err) {
+            console.error('Error al obtener asistencias por institución:', err);
+            // Detalles del error de MySQL para depuración
+            console.error('Detalles del error MySQL:', err.message || err);
+            return res.status(500).json({ error: 'Error en la base de datos' });
+        }
+
+        const data = results.map(row => ({
+            modalidad: row.modalidad,
+            porcentaje: parseFloat(((row.asistencias / row.total) * 100).toFixed(2)),
+        }));
+
+        console.log('[/obtenerAsistenciasPorModalidadInsti] Datos obtenidos de la DB:', data);
+        res.json(data);
+    });
+});
+
+// Endpoint para analizar datos de asistencia específicamente por institución
+// Este endpoint es llamado por AnalisisporInsti.jsx para el análisis de Gemini
+app.post('/analyzeInstitutionAttendance', async (req, res) => {
+    const { attendanceData, institucion } = req.body;
+
+    console.log('[/analyzeInstitutionAttendance] Recibida solicitud con:');
+    console.log('  Institucion:', institucion);
+    console.log('  Attendance Data (recibido del frontend):', attendanceData);
+
+
+    if (!attendanceData || !institucion) { // attendanceData puede estar vacío si no hay asistencias
+        return res.status(400).json({ error: 'Faltan datos de asistencia o el nombre de la institución para analizar.' });
+    }
+
+    // Construye el prompt específico para el análisis por institución
+    let prompt = `Analiza *exclusivamente* los siguientes datos de asistencia a modalidades para la institución "${institucion}".
+    Es *crucial* que solo utilices la información proporcionada a continuación y no infieras o añadas otras modalidades que no estén en la lista.
+    Estos son los *únicos* datos de asistencia disponibles para esta institución en el período especificado.\n\n`;
+
+    if (attendanceData.length > 0) {
+        const sortedData = [...attendanceData].sort((a, b) => b.porcentaje - a.porcentaje);
+        const topModalidad = sortedData[0];
+
+        prompt += `En la institución "${institucion}", se puede observar cómo la modalidad "${topModalidad.modalidad}" predomina con un total del ${topModalidad.porcentaje}% de asistencias.\n\n`;
+        prompt += `A continuación, se presenta el porcentaje de asistencia de cada modalidad en esta institución:\n`;
+        attendanceData.forEach(item => {
+            prompt += `- Modalidad "${item.modalidad}": ${item.porcentaje}% de asistencia.\n`;
+        });
+        prompt += `\n`;
+    } else {
+        prompt += `No se encontraron datos de asistencia para la institución "${institucion}" en el rango de fechas seleccionado. Por lo tanto, no se pueden generar sugerencias específicas de mejora para modalidades.\n\n`;
+    }
+
+    prompt += `Basado *únicamente* en los datos de asistencia proporcionados, identifica las modalidades con bajo porcentaje de asistencia (por debajo del 70%, si aplica) y proporciona sugerencias específicas y accionables (al menos 3 por modalidad) para mejorar la asistencia de los niños en esas modalidades dentro de la institución "${institucion}". Las sugerencias deben estar enfocadas en acciones que la institución o los padres pueden tomar para motivar a los niños a mejorar sus asistencias. Si no hay modalidades con bajo porcentaje de asistencia en los datos proporcionados, indícalo claramente.`;
+
+
+    const apiKey = "AIzaSyC8v4TgJqbiI9CRPo7uuDWScCu6I2Z0qT8"; // VERIFICA ESTA CLAVE
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    console.log('Intentando llamar a la API de Gemini para análisis por institución...');
+    console.log('URL de la API:', apiUrl);
+    console.log('Payload enviado a Gemini:', JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }] }, null, 2));
+
+    try {
+        const payload = {
+            contents: [{ role: "user", parts: [{ text: prompt }] }]
+        };
+
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error en la llamada a la API de Gemini para análisis por institución:');
+            console.error('Código de estado:', response.status);
+            console.error('Mensaje de estado:', response.statusText);
+            console.error('Cuerpo de la respuesta de error:', errorText);
+            throw new Error(`Error al analizar datos con Gemini para institución: ${response.statusText}. Detalles: ${errorText}`);
+        }
+
+        const result = await response.json();
+
+        if (result.candidates && result.candidates.length > 0 &&
+            result.candidates[0].content && result.candidates[0].content.parts &&
+            result.candidates[0].content.parts.length > 0) {
+            const analysisText = result.candidates[0].content.parts[0].text;
+            res.json({ analysis: analysisText });
+        } else {
+            console.warn('Respuesta inesperada de la API de Gemini para análisis por institución:', result);
+            res.json({ analysis: 'No se pudo generar un análisis detallado para la institución.' });
+        }
+
+    } catch (error) {
+        console.error('Error al procesar la solicitud de análisis por institución:', error);
+        res.status(500).json({ error: `Error interno del servidor al analizar datos por institución: ${error.message}` });
+    }
 });
 
 app.listen(3000, () => {

@@ -16,12 +16,14 @@ import VisualizarEst from "./components/VisualizarEst.jsx";
 import AgregarUsu from "./components/AgregarUsu.jsx";
 import EditareliminarUsu from "./components/EditareliminarUsu.jsx";
 import EditareliminarEst from "./components/EditareliminarEst.jsx";
+import AnalisisGeneral  from "./components/AnalisisGeneral.jsx";
+import AnalisisporInsti from "./components/AnalisisporInsti.jsx";
 
 export default function App() {
     const location = useLocation();
 
     const noNavBarRoutes = ['/menu-admin', '/menu-profe','/agregar-est','/tomar-Ast', '/visualizar-Ast',
-        '/visualizar-est','/agregar-usu','/editar-eliminarUsu', '/editar-eliminarEst'];
+        '/visualizar-est','/agregar-usu','/editar-eliminarUsu', '/editar-eliminarEst','/analisis-general','/analisis-institucion'];
 
 
     return (
@@ -49,6 +51,8 @@ export default function App() {
                 <Route path="/agregar-usu" element={<AgregarUsu />} />
                 <Route path="/editar-eliminarUsu" element={<EditareliminarUsu />} />
                 <Route path="/editar-eliminarEst" element={<EditareliminarEst />} />
+                <Route path="/analisis-general" element={<AnalisisGeneral />} />
+                <Route path="/analisis-institucion" element={<AnalisisporInsti />} />
 
             </Routes>
         </>

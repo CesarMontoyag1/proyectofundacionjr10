@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styles from '../styles/AnalisisDiseo.module.css';
+import React, { useState, useEffect } from 'react';
+import styles from '../styles/AnalisisDiseo.module.css'; // Reutilizamos el mismo archivo CSS
 import NavBarWithButtons from '../components/NavBarWithButtons'; // Tu barra de navegación
 import {
     BarChart,
@@ -12,27 +12,63 @@ import {
     ResponsiveContainer
 } from 'recharts';
 
-export default function AnalisisGeneral() {
+export default function AnalisisporInsti() {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [institution, setInstitution] = useState(''); // Estado para la institución seleccionada
+    const [institutionsList, setInstitutionsList] = useState([]); // Nuevo estado para la lista de instituciones
+    const [loadingInstitutions, setLoadingInstitutions] = useState(true); // Estado de carga para instituciones
     const [results, setResults] = useState([]);
     const [analysis, setAnalysis] = useState('');
     const [loading, setLoading] = useState(false);
+
+    // useEffect para cargar la lista de instituciones al montar el componente
+    useEffect(() => {
+        const fetchInstitutions = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/obtenerInstituciones');
+                if (!response.ok) {
+                    throw new Error('Error al obtener la lista de instituciones');
+                }
+                const data = await response.json();
+                setInstitutionsList(data);
+                setLoadingInstitutions(false);
+            } catch (error) {
+                console.error('Error fetching institutions:', error);
+                // Aquí podrías mostrar un mensaje de error al usuario
+                setLoadingInstitutions(false);
+            }
+        };
+
+        fetchInstitutions();
+    }, []); // El array vacío asegura que se ejecute solo una vez al montar
 
     const fetchAttendanceData = async () => {
         setLoading(true);
         setAnalysis('');
         setResults([]);
 
+        // Validación básica: asegúrate de que se haya seleccionado una institución
+        if (!institution) {
+            setAnalysis('Por favor, selecciona una institución para realizar el análisis.');
+            setLoading(false);
+            return;
+        }
+
         try {
-            const response = await fetch('http://localhost:3000/obtenerAsistenciasPorModalidad', {
+            // Paso 1: Obtener los datos de asistencia de tu backend, incluyendo la institución
+            // ¡IMPORTANTE! Aquí llamamos al endpoint específico para instituciones
+            const response = await fetch('http://localhost:3000/obtenerAsistenciasPorModalidadInsti', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ fechaInicio: startDate, fechaFin: endDate }),
+                body: JSON.stringify({ fechaInicio: startDate, fechaFin: endDate, institucion: institution }), // Enviamos la institución
             });
 
             if (!response.ok) {
-                throw new Error('Error al obtener datos de asistencia de la base de datos');
+                // Captura el mensaje de error del backend si existe
+                const errorBody = await response.text();
+                console.error('Error response from backend for attendance data:', errorBody);
+                throw new Error(`Error al obtener datos de asistencia de la base de datos. Por favor, inténtalo de nuevo. Detalles: ${errorBody}`);
             }
 
             const data = await response.json();
@@ -42,29 +78,31 @@ export default function AnalisisGeneral() {
             }));
             setResults(formattedData);
 
-            const geminiAnalysisResponse = await fetch('http://localhost:3000/analyzeAttendance', {
+            // Paso 2: Enviar los datos de asistencia al endpoint de análisis por institución
+            const geminiAnalysisResponse = await fetch('http://localhost:3000/analyzeInstitutionAttendance', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ attendanceData: formattedData }),
+                body: JSON.stringify({ attendanceData: formattedData, institucion: institution }), // Enviamos la institución
             });
 
             if (!geminiAnalysisResponse.ok) {
                 const errorText = await geminiAnalysisResponse.text();
-                console.error('Error en la respuesta del backend para el análisis:', geminiAnalysisResponse.status, errorText);
-                throw new Error(`Error al analizar datos: ${geminiAnalysisResponse.statusText}`);
+                console.error('Error en la respuesta del backend para el análisis por institución:', geminiAnalysisResponse.status, errorText);
+                throw new Error(`Error al analizar datos para la institución: ${geminiAnalysisResponse.statusText}. Detalles: ${errorText}`);
             }
 
             const analysisData = await geminiAnalysisResponse.json();
-            setAnalysis(analysisData.analysis || 'No se generaron sugerencias de análisis.');
+            setAnalysis(analysisData.analysis || 'No se generaron sugerencias de análisis para esta institución.');
 
         } catch (error) {
-            console.error('Error en la operación de análisis:', error);
-            setAnalysis(`Error: ${error.message}. Por favor, inténtalo de nuevo.`);
+            console.error('Error en la operación de análisis por institución:', error);
+            setAnalysis(`Error: ${error.message}.`);
         } finally {
             setLoading(false);
         }
     };
 
+    // Función para renderizar el contenido del análisis de forma estructurada
     const renderAnalysisContent = (text) => {
         if (!text) return null;
 
@@ -75,16 +113,24 @@ export default function AnalisisGeneral() {
         lines.forEach((line, index) => {
             line = line.trim();
 
-            if (line.startsWith('**Las 3 modalidades con mejor asistencia son:**')) {
-                elements.push(<h3 key={index} className={styles.analysisHeading}>{line.replace(/\*\*/g, '')}</h3>);
-                currentList = null;
-            } else if (line.startsWith('**Modalidad con bajo porcentaje de asistencia:')) {
-                elements.push(<h3 key={index} className={styles.analysisHeading}>{line.replace(/\*\*/g, '')}</h3>);
-                currentList = null;
-            } else if (line.startsWith('**Sugerencias para mejorar la asistencia en')) {
+            // Modificaciones para el nuevo formato de prompt:
+            // Detectar la línea inicial de resumen de la institución
+            if (line.includes('En la institución') && line.includes('predomina con un total del')) {
+                elements.push(<p key={index} className={styles.analysisParagraph}><strong className={styles.institutionSummary}>{line}</strong></p>);
+            } else if (line.startsWith('A continuación, se presenta el porcentaje de asistencia de cada modalidad en esta institución:')) {
+                elements.push(<p key={index} className={styles.analysisParagraph}>{line}</p>);
+            } else if (line.startsWith('- Modalidad')) {
+                elements.push(<li key={index} className={styles.resultsListItem}>{line.replace('- Modalidad ', 'Modalidad ')}</li>);
+            }
+            // Encabezados de sugerencias
+            else if (line.startsWith('Basado en estos datos, identifica las modalidades con bajo porcentaje de asistencia')) {
+                elements.push(<p key={index} className={styles.analysisParagraph}>{line}</p>);
+            }
+            else if (line.startsWith('**Sugerencias para mejorar la asistencia en')) {
                 elements.push(<h3 key={index} className={styles.analysisSubHeading}>{line.replace(/\*\*/g, '')}</h3>);
                 currentList = null;
             }
+            // Listas numeradas (sugerencias principales)
             else if (/^\d+\.\s+\*\*(.+?)\*\*:/.test(line)) {
                 if (currentList && currentList.type === 'ul') {
                     elements.push(currentList.jsx);
@@ -110,6 +156,7 @@ export default function AnalisisGeneral() {
                 }
                 currentList = { type: 'ol', jsx: elements[elements.length - 1] };
             }
+            // Listas con viñetas (sub-sugerencias)
             else if (line.startsWith('* **Sugerencia')) {
                 const match = line.match(/^\*\s+\*\*(.+?)\*\*: (.+)/);
                 if (match) {
@@ -125,6 +172,7 @@ export default function AnalisisGeneral() {
                     ];
                 }
             }
+            // Párrafos o texto general
             else {
                 if (currentList) {
                     elements.push(currentList.jsx);
@@ -142,13 +190,13 @@ export default function AnalisisGeneral() {
     };
 
     return (
-        <div className={styles.globalContainer}> {/* Nuevo contenedor global */}
-            <NavBarWithButtons /> {/* Tu barra de navegación */}
-            <div className={styles.mainContentContainer}> {/* Contenedor para el resto del contenido */}
+        <div className={styles.globalContainer}>
+            <NavBarWithButtons />
+            <div className={styles.mainContentContainer}>
                 <div className={styles.analysisSection}>
-                    <h1 className={styles.title}>Análisis General de Asistencias</h1>
+                    <h1 className={styles.title}>Análisis de Asistencias por Institución</h1>
                     <p className={styles.introText}>
-                        Esta sección visualiza y analiza las asistencias de los niños en diferentes modalidades. Genera un diagnóstico detallado, identificando modalidades populares y ofreciendo sugerencias personalizadas para mejorar la participación.
+                        Esta sección te permite analizar las asistencias de los niños a las diferentes modalidades, filtrando específicamente por una institución educativa. Obtén un diagnóstico detallado y sugerencias personalizadas para mejorar la participación en ese colegio.
                     </p>
                     <div className={styles.form}>
                         <label className={styles.label}>
@@ -169,7 +217,26 @@ export default function AnalisisGeneral() {
                                 className={styles.input}
                             />
                         </label>
-                        <button onClick={fetchAttendanceData} className={styles.button} disabled={loading}>
+                        <label className={styles.label}>
+                            Institución:
+                            {loadingInstitutions ? (
+                                <p className={styles.loadingText}>Cargando instituciones...</p>
+                            ) : (
+                                <select
+                                    value={institution}
+                                    onChange={(e) => setInstitution(e.target.value)}
+                                    className={styles.input} // Reutilizamos el estilo del input
+                                >
+                                    <option value="">Selecciona una institución</option>
+                                    {institutionsList.map((inst, index) => (
+                                        <option key={index} value={inst.nombre}>
+                                            {inst.nombre}
+                                        </option>
+                                    ))}
+                                </select>
+                            )}
+                        </label>
+                        <button onClick={fetchAttendanceData} className={styles.button} disabled={loading || loadingInstitutions}>
                             {loading ? 'Analizando...' : 'Analizar'}
                         </button>
                     </div>
@@ -185,7 +252,7 @@ export default function AnalisisGeneral() {
                                 ))}
                             </ul>
                         ) : (
-                            <p className={styles.placeholderText}>Selecciona un rango de fechas y haz clic en "Analizar" para ver los resultados.</p>
+                            <p className={styles.placeholderText}>Selecciona un rango de fechas y una institución para ver los resultados.</p>
                         )}
                     </div>
                 </div>

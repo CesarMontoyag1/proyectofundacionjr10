@@ -1,0 +1,417 @@
+/* Importa una fuente moderna de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc; /* Very light background */
+}
+
+/* Nuevo contenedor global que envuelve todo */
+.globalContainer {
+    display: flex;
+    flex-direction: column; /* La barra de navegación arriba, contenido debajo */
+    min-height: 100vh;
+}
+
+/* El antiguo .container ahora es .mainContentContainer y maneja el layout del contenido */
+.mainContentContainer {
+    display: flex;
+    flex-direction: column; /* Default to column for mobile */
+    flex-grow: 1; /* Allows it to take remaining space */
+    padding: 20px;
+    box-sizing: border-box;
+    gap: 20px; /* Space between sections, slightly less */
+}
+
+/* Base styles for sections */
+.analysisSection,
+.graphSection,
+.analysisOutputContainer {
+    background-color: white;
+    padding: 25px; /* Reduced padding */
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* More pronounced but soft shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition for hover */
+}
+
+.analysisSection:hover,
+.graphSection:hover,
+.analysisOutputContainer:hover {
+    transform: translateY(-5px); /* Small lift effect on hover */
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Main section titles */
+.title {
+    font-size: 28px; /* Slightly smaller title */
+    font-weight: 700;
+    margin-bottom: 20px; /* Reduced margin */
+    color: #1a202c;
+    text-align: center;
+    position: relative;
+    padding-bottom: 8px; /* Reduced padding */
+}
+
+.title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px; /* Slightly shorter line */
+    height: 3px; /* Thinner line */
+    background-color: #3b82f6;
+    border-radius: 2px;
+}
+
+/* Introductory text */
+.introText {
+    font-size: 14px; /* Smaller font size */
+    color: #4a5568;
+    text-align: center;
+    margin-bottom: 25px; /* Reduced margin */
+    line-height: 1.6; /* Adjusted line spacing */
+    max-width: 600px; /* Max width for text */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Form */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Less space between form elements */
+    margin-bottom: 25px; /* Reduced margin */
+}
+
+.label {
+    font-size: 14px; /* Smaller font size */
+    font-weight: 600;
+    color: #2d3748;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Less space between label and input */
+}
+
+/* Styles for inputs and select (dropdown) */
+.input {
+    padding: 10px; /* Reduced padding */
+    border: 1px solid #e2e8f0;
+    border-radius: 8px; /* Slightly less rounded */
+    font-size: 15px; /* Adjusted font size */
+    color: #2d3748;
+    background-color: #f7fafc;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    max-width: 200px; /* Smaller max width for date and institution input/select */
+    align-self: center;
+    /* Para el select, asegúrate de que la flecha por defecto se vea bien */
+    -webkit-appearance: none; /* Elimina la flecha por defecto en WebKit */
+    -moz-appearance: none; /* Elimina la flecha por defecto en Firefox */
+    appearance: none; /* Elimina la flecha por defecto */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%232d3748%22%20d%3D%22M287%2C197.3L159.2%2C69.5c-3.6-3.6-8.2-5.4-12.8-5.4s-9.2%2C1.8-12.8%2C5.4L5.4%2C197.3c-7.2%2C7.2-7.2%2C18.8%2C0%2C26.1c3.6%2C3.6%2C8.2%2C5.4%2C12.8%2C5.4h256.1c4.6%2C0%2C9.2-1.8%2C12.8-5.4C294.2%2C216.1%2C294.2%2C204.5%2C287%2C197.3z%22%2F%3E%3C%2Fsvg%3E'); /* Flecha SVG personalizada */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding-right: 30px; /* Espacio para la flecha */
+}
+
+.input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Smaller shadow */
+}
+
+.button {
+    background-image: linear-gradient(to right, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    padding: 12px 25px; /* Reduced padding */
+    border: none;
+    border-radius: 8px; /* Slightly less rounded */
+    cursor: pointer;
+    font-size: 16px; /* Adjusted font size */
+    font-weight: 700;
+    transition: all 0.3s ease;
+    align-self: center;
+    width: fit-content;
+    box-shadow: 0 3px 10px rgba(59, 130, 246, 0.3); /* Smaller shadow */
+    letter-spacing: 0.5px;
+}
+
+.button:hover {
+    background-image: linear-gradient(to right, #2563eb 0%, #3b82f6 100%);
+    transform: translateY(-2px); /* More subtle lift effect */
+    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+}
+
+.button:disabled {
+    background-image: none;
+    background-color: #a0c9f5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Attendance Results */
+.results h2,
+.graphSection h2,
+.analysisOutputContainer h2 {
+    font-size: 22px; /* Slightly smaller section titles */
+    font-weight: 600;
+    margin-bottom: 18px; /* Reduced margin */
+    color: #2d3748;
+    text-align: center;
+}
+
+.resultsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.resultsListItem {
+    background-color: #f0f4f8;
+    padding: 12px 15px; /* Reduced padding */
+    border-radius: 8px;
+    margin-bottom: 10px; /* Reduced margin */
+    font-size: 15px; /* Smaller font size */
+    color: #4a5568;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid #10b981; /* Thinner border */
+}
+
+.resultsListItem:last-child {
+    margin-bottom: 0;
+}
+
+.placeholderText,
+.loadingText {
+    text-align: center;
+    color: #718096;
+    font-style: italic;
+    padding: 15px; /* Reduced padding */
+    background-color: #f7fafc;
+    border-radius: 10px;
+    margin-top: 15px;
+    font-size: 14px; /* Smaller font size */
+}
+
+/* Graph Section */
+.graphSection {
+    min-height: 350px; /* Ensure enough height for the chart */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.graphPlaceholder {
+    background-color: #e2e8f0;
+    border-radius: 10px;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    font-size: 16px;
+    font-weight: 500;
+    border: 2px dashed #cbd5e0;
+    width: 100%;
+}
+
+
+/* Gemini Analysis Container */
+.analysisOutputContainer {
+    /* Base section styles already applied */
+}
+
+.analysisContent {
+    background-color: #ffffff;
+    padding: 25px; /* Increased padding for more breathing room */
+    border-radius: 10px;
+    border: 1px solid #e0e0e0; /* Softer border */
+    max-height: 550px;
+    overflow-y: auto;
+    line-height: 1.8; /* Increased line spacing for readability */
+    color: #334155;
+    font-size: 16px; /* Base font size for content */
+}
+
+.analysisHeading {
+    font-size: 24px; /* Larger font size for main heading */
+    font-weight: 700;
+    color: #2c3e50; /* Darker color */
+    margin-top: 30px; /* More top margin */
+    margin-bottom: 15px;
+    border-bottom: 3px solid #3b82f6; /* More prominent border */
+    padding-bottom: 10px;
+}
+
+.analysisSubHeading {
+    font-size: 20px; /* Larger font size for sub-headings */
+    font-weight: 600;
+    color: #2c5282;
+    margin-top: 25px;
+    margin-bottom: 12px;
+}
+
+.analysisParagraph {
+    font-size: 16px; /* Standard font size */
+    color: #4a5568;
+    margin-bottom: 20px; /* More bottom margin */
+}
+
+/* Nuevo estilo para el resumen de la institución en el análisis */
+.institutionSummary {
+    font-size: 1.1em; /* Un poco más grande para destacar */
+    color: #0056b3; /* Un color que lo destaque */
+    display: block; /* Para que ocupe su propia línea */
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+
+.mainSuggestionsList {
+    list-style: decimal;
+    padding-left: 35px; /* Increased indentation */
+    margin-bottom: 25px; /* More space */
+}
+
+.mainSuggestion {
+    font-size: 17px; /* Font size for main suggestions */
+    color: #334155;
+    margin-bottom: 12px; /* Space between items */
+    line-height: 1.6; /* Line spacing for items */
+}
+
+.mainSuggestion strong {
+    color: #3b82f6; /* Primary blue for bold text */
+    font-weight: 700;
+}
+
+.subSuggestionsList {
+    list-style: disc;
+    padding-left: 50px; /* Increased indentation */
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.subSuggestionsList li {
+    font-size: 15px; /* Font size for sub-suggestions */
+    color: #64748b;
+    margin-bottom: 8px; /* Space between items */
+    line-height: 1.5; /* Line spacing for items */
+}
+
+.subSuggestionsList li strong {
+    color: #10b981; /* Accent green for bold sub-suggestion text */
+    font-weight: 600;
+}
+
+/* Scrollbar styles */
+.analysisContent::-webkit-scrollbar {
+    width: 8px;
+}
+
+.analysisContent::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+.analysisContent::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 10px;
+}
+
+.analysisContent::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+
+/* Media Queries for Responsiveness */
+
+/* For medium screens (tablets) */
+@media (min-width: 768px) {
+    .mainContentContainer {
+        padding: 25px;
+    }
+    .analysisSection,
+    .graphSection,
+    .analysisOutputContainer {
+        padding: 30px;
+    }
+    .title {
+        font-size: 32px;
+    }
+    .introText {
+        font-size: 15px;
+    }
+    .results h2,
+    .graphSection h2,
+    .analysisOutputContainer h2 {
+        font-size: 24px;
+    }
+    .analysisHeading {
+        font-size: 22px;
+    }
+    .analysisSubHeading {
+        font-size: 18px;
+    }
+    .analysisParagraph {
+        font-size: 16px;
+    }
+    .mainSuggestion {
+        font-size: 17px;
+    }
+    .subSuggestionsList li {
+        font-size: 15px;
+    }
+}
+
+/* For large screens (desktops) */
+@media (min-width: 1024px) {
+    .mainContentContainer { /* Apply flex properties to the main content */
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        max-width: 1400px;
+        margin: 0 auto;
+        gap: 20px;
+    }
+
+    .analysisSection {
+        flex: 0 0 320px; /* Fixed width for the left column, smaller */
+        margin-right: 20px;
+        max-height: fit-content;
+    }
+
+    .rightColumn {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 20px;
+    }
+
+    .graphSection {
+        flex: 0 0 auto;
+        min-height: 350px;
+    }
+
+    .analysisOutputContainer {
+        flex: 1;
+        margin-top: 0;
+    }
+}
+
+/* Media Query for very large screens, if further adjustment is needed */
+@media (min-width: 1400px) {
+    .analysisSection {
+        flex: 0 0 350px;
+    }
+    .rightColumn {
+        flex: 1;
+    }
+}
