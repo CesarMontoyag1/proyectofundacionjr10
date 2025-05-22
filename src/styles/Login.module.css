@@ -8,7 +8,7 @@ body {
 .container {
     margin: 0;
     width: 100%;
-    height: calc(100vh - 6rem); /* 100% viewport menos NavBar (6rem) */
+    height: calc(100vh - 5.15rem); /* 100% viewport menos NavBar (6rem) */
     background: #000; /* Fondo negro sólido */
     display: flex;
     align-items: center;
