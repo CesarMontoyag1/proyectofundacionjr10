@@ -18,13 +18,13 @@ import EditareliminarUsu from "./components/EditareliminarUsu.jsx";
 import EditareliminarEst from "./components/EditareliminarEst.jsx";
 import AnalisisGeneral  from "./components/AnalisisGeneral.jsx";
 import AnalisisporInsti from "./components/AnalisisporInsti.jsx";
+import Nosotros2 from './components/Nosotros2.jsx';
 
 export default function App() {
     const location = useLocation();
 
     const noNavBarRoutes = ['/menu-admin', '/menu-profe','/agregar-est','/tomar-Ast', '/visualizar-Ast',
         '/visualizar-est','/agregar-usu','/editar-eliminarUsu', '/editar-eliminarEst','/analisis-general','/analisis-institucion'];
-
 
     return (
         <>
@@ -41,7 +41,15 @@ export default function App() {
                     }
                 />
                 <Route path="/login" element={<Login />} />
-                <Route path="/nosotros" element={<Nosotros />} />
+                <Route
+                    path="/nosotros"
+                    element={
+                        <>
+                            <Nosotros />
+                            <Nosotros2 />
+                        </>
+                    }
+                />
                 <Route path="/menu-admin" element={<MenuAdmin />} />
                 <Route path="/menu-profe" element={<MenuProf />} />
                 <Route path="/agregar-est" element={<AgregarEst />} />
@@ -53,7 +61,7 @@ export default function App() {
                 <Route path="/editar-eliminarEst" element={<EditareliminarEst />} />
                 <Route path="/analisis-general" element={<AnalisisGeneral />} />
                 <Route path="/analisis-institucion" element={<AnalisisporInsti />} />
-
+                <Route path="/nosotros2" element={<Nosotros2 />} />
             </Routes>
         </>
     );

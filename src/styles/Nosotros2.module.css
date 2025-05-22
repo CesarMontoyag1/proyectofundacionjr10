@@ -1,0 +1,60 @@
+.container {
+    background-color: white; /* Fondo blanco */
+    padding: 0rem; /* Espaciado interno */
+}
+
+.gridContainer {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tres columnas de igual ancho */
+    gap: 0; /* Sin espacio entre las columnas */
+    width: 100vw; /* Abarca todo el ancho de la pantalla */
+    padding: 0; /* Sin espaciado interno */
+    margin: 0; /* Sin margen */
+    box-sizing: border-box; /* Incluye el padding en el ancho total */
+    overflow: hidden; /* Asegura que el contenido no se salga */
+}
+.gridItem:first-child {
+    position: relative;
+    left: 0; /* Asegura que esté alineada al borde izquierdo */
+    margin: 0; /* Sin margen */
+}
+
+.gridItem {
+    position: relative;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 0; /* Sin bordes redondeados */
+    overflow: hidden;
+}
+
+.gridContainer::before {
+    content: ''; /* Crea el pseudo-elemento */
+    position: absolute; /* Posición absoluta dentro del contenedor */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(black, rgba(250, 250, 250, 0) 30%, white); /* Gradiente para desvanecer bordes */
+    z-index: 1; /* Coloca el pseudo-elemento encima del grid */
+    pointer-events: none; /* Permite interactuar con los elementos del grid */
+}
+
+.textContainer {
+    text-align: center; /* Centrar el texto */
+    margin-top: 6rem; /* Espaciado superior */
+}
+
+.title {
+    font-size: 2rem; /* Tamaño del título */
+    font-weight: bold;
+    color: #000; /* Color negro */
+    margin-bottom: 1rem;
+}
+
+.paragraph {
+    font-size: 1rem; /* Tamaño del texto */
+    color: #333; /* Color gris oscuro */
+    line-height: 1.6; /* Espaciado entre líneas */
+}

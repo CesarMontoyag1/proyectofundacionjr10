@@ -2,6 +2,7 @@ import React from 'react';
 import styles from '../styles/Nosotros.module.css'; // Asegúrate de que la ruta sea correcta
 import fondoNegro from '../assets/fondonegro.png'; // Ajusta la ruta según la ubicación de tu archivo
 
+
 export default function Nosotros() {
     return (
         <div
@@ -11,8 +12,8 @@ export default function Nosotros() {
                 backgroundImage: `url(${fondoNegro})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                height: '100vh', // Ajusta la altura según sea necesario
-                color: 'white', // Cambia el color del texto para que sea legible
+                minHeight: '100vh', // Ocupa toda la altura de la pantalla
+                color: 'white',
             }}
         >
             <h1 className={styles.title}>Nosotros</h1>
@@ -22,9 +23,9 @@ export default function Nosotros() {
                     <span className={styles.hoverText}>
                         <div> ⚽ ⚽ ⚽</div>
                         <div>4535 Niños, niñas y adolescentes</div>
-                         <div>1.970 Madres, padres y familiares.</div>
-                         <div>88.608 Complementos nutricionales</div>
-                         <div>81.540 Horas de tutorías</div>
+                        <div>1.970 Madres, padres y familiares.</div>
+                        <div>88.608 Complementos nutricionales</div>
+                        <div>81.540 Horas de tutorías</div>
                         <div> ⚽ ⚽ ⚽</div>
                     </span>
                 </div>
@@ -33,9 +34,9 @@ export default function Nosotros() {
                     <span className={styles.hoverText}>
                         <div> ⚽ ⚽ ⚽</div>
                         <div>1. Mentorías para el alto rendimiento.</div>
-                         <div>2. Intervenciones sociales y empresariales</div>
-                         <div>3. Investigación social</div>
-                         <div>4. Proyectos especiales para el valor social</div>
+                        <div>2. Intervenciones sociales y empresariales</div>
+                        <div>3. Investigación social</div>
+                        <div>4. Proyectos especiales para el valor social</div>
                         <div> ⚽ ⚽ ⚽</div>
                     </span>
                 </div>
@@ -51,6 +52,9 @@ export default function Nosotros() {
                     </span>
                 </div>
             </div>
+
+
+
         </div>
     );
 }
