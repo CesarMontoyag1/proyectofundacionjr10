@@ -722,6 +722,53 @@ app.post('/analyzeInstitutionAttendance', async (req, res) => {
     }
 });
 
+
+app.get('/notificaciones', (req, res) => {
+    const query = `
+        SELECT
+            e.numDoc,
+            e.primerNombre,
+            e.primerApellido,
+            COUNT(*) AS inasistencias,
+            MAX(ae.leido) AS leido
+        FROM asistencia_has_estudiantes ae
+                 JOIN asistencia a ON ae.asistencia_idAsistencia = a.idAsistencia
+                 JOIN estudiantes e ON ae.estudiantes_numDoc = e.numDoc
+            AND ae.estudiantes_tipoDoc = e.tipoDoc
+            AND ae.estudiantes_modalidad = e.modalidad
+            AND ae.estudiantes_dias = e.dias
+        WHERE ae.asistio = 0
+        GROUP BY e.numDoc, e.primerNombre, e.primerApellido
+        HAVING inasistencias >= 3;
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener notificaciones:', err);
+            return res.status(500).json({ error: 'Error en el servidor' });
+        }
+
+        const nuevasNotificaciones = results.some(n => n.leido === 0);
+        res.json({ notificaciones: results, nuevas: nuevasNotificaciones });
+    });
+});
+
+app.post('/notificaciones/leer', (req, res) => {
+    const query = `
+        UPDATE asistencia_has_estudiantes
+        SET leido = 1
+        WHERE leido = 0
+    `;
+
+    db.query(query, (err) => {
+        if (err) {
+            console.error('Error al marcar notificaciones como leídas:', err);
+            return res.status(500).json({ error: 'Error en el servidor' });
+        }
+        res.json({ ok: true });
+    });
+});
+
 app.listen(3000, () => {
     console.log("Servidor corriendo en http://localhost:3000");
 });
