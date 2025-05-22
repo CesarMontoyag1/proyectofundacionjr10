@@ -16,7 +16,7 @@
     max-width: 1200px; /* Ancho máximo del formulario */
     margin: 5% auto; /* Centrado horizontal */
     margin-left: 8.5rem; /* Desplaza el formulario hacia la derecha */
-    background-color: #f0f0f0; /* Fondo gris claro */
+    background-color: white; /* Fondo gris claro */
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -43,7 +43,7 @@ label {
 input, select {
     width: 100%; /* Ocupa todo el ancho disponible */
     padding: 0.75rem; /* Aumenta el padding para inputs */
-    border: 1px solid #ccc; /* Borde gris claro */
+    border: 1px solid #f0f0f0; /* Borde gris claro */
     border-radius: 4px; /* Bordes redondeados */
     font-size: 1rem; /* Tamaño de fuente */
 }
@@ -77,5 +77,5 @@ input, select {
 }
 
 .customTitle {
-    color: #f0f0f0; /* Cambia este color al que desees */
+    color: white; /* Cambia este color al que desees */
 }

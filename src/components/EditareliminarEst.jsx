@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import NavBarWithButtons from './NavBarWithButtons';
 import styles from '../styles/Editareliminar.module.css';
 import formStyles from '../styles/EditareliminarForm.module.css';
+import fondoDepantalla9 from '../assets/fondoblanco.png';
 
 export default function EditareliminarEstudiante() {
   const [formData, setFormData] = useState({ tipoDoc: '', numDoc: '' });
@@ -97,7 +98,15 @@ export default function EditareliminarEstudiante() {
   return (
       <>
         <NavBarWithButtons />
-        <div className={styles.container}>
+        <div
+            className={styles.container}
+            style={{
+              backgroundImage: `url(${fondoDepantalla9})`, // Asegúrate de importar la imagen
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              color: 'white',
+            }}
+        >
           <h1 className={styles.title}>Editar o Eliminar Estudiante</h1>
 
           <div className={styles.searchContainer}>

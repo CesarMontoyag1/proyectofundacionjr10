@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import NavBarWithButtons from './NavBarWithButtons';
 import styles from '../styles/Editareliminar.module.css';
+import fondoDepantalla10 from '../assets/fondoblanco.png';
 
 export default function EditareliminarUsu() {
     const [formData, setFormData] = useState({
@@ -111,7 +112,15 @@ export default function EditareliminarUsu() {
     return (
         <>
             <NavBarWithButtons />
-            <div className={styles.container}>
+            <div
+                className={styles.container}
+                style={{
+                    backgroundImage: `url(${fondoDepantalla10})`, // Fondo de imagen
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    color: 'white',
+                }}
+            >
                 <h1 className={styles.title}>Editar o Eliminar Usuario</h1>
 
                 <div className={styles.searchContainer}>
