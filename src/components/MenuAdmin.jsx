@@ -9,7 +9,6 @@ import jameHospitals from '../assets/JamesHospital.jpg';
 import fondoDepantalla6 from '../assets/fondoblanco.png';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import fondoDepantalla6 from '../assets/fondoblanco.png';
 
 // Flecha personalizada para "Anterior"
 function PrevArrow(props) {
