@@ -1,10 +1,12 @@
+/* styles/NavBarWithButtons.module.css */
 .navbar {
     display: flex;
-    justify-content: space-between; /* Espacia los elementos a los extremos */
+    justify-content: space-between;
     align-items: center;
     background-color: black;
     color: white;
     padding: 1rem 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .logoContainer {
@@ -22,31 +24,96 @@
 .title {
     font-size: 30px;
     font-weight: bold;
-    color: #38bdf8; /* Azul del Home */
+    color: #38bdf8;
     display: flex;
     align-items: center;
-    margin-left: 100px; /* Mueve el título más a la derecha */
+    margin-left: 100px;
 }
 
 .buttonsContainer {
     display: flex;
-    align-items: center; /* Alinea verticalmente los botones */
-    gap: 1rem; /* Espaciado entre los botones */
+    align-items: center;
+    gap: 1.5rem;
 }
 
-.iconButton {
+/* Contenedor relativo para badge y campana */
+.notificationWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Estilos para el botón de Notificaciones */
+.notificationButton {
     background: none;
     border: none;
     cursor: pointer;
     padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.icon {
-    font-size: 2rem; /* Tamaño de los íconos */
+.notificationIcon {
+    font-size: 1.5rem;
     color: white;
-    transition: color 0.3s ease; /* Transición suave para el color */
+    transition: color 0.3s ease;
 }
 
-.iconButton:hover .icon {
-    color: #ccc; /* Cambia el color al pasar el mouse */
+.notificationButton:hover .notificationIcon {
+    color: #ccc;
+}
+
+/* Estilos para el badge de notificación (círculo rojo) */
+.notificationBadge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background-color: #dc3545;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 0.6em;
+    font-weight: bold;
+    min-width: 16px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+/* Estilos para el botón de Usuario */
+.userButton {
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+    padding: 0.7rem 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.userButton:hover {
+    background-color: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+/* Nuevos estilos para el botón de Menú como texto */
+.menuTextButton {
+    background: none; /* Sin fondo */
+    border: none; /* Sin borde */
+    color: white; /* Texto blanco */
+    padding: 0; /* Sin padding */
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500; /* Un peso de fuente similar a los enlaces */
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.menuTextButton:hover {
+    color: #38bdf8; /* Azul del Home al pasar el mouse */
+    text-decoration: underline; /* Subrayado al pasar el mouse */
 }

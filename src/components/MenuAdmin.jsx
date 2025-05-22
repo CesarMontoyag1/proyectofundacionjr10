@@ -15,11 +15,11 @@ function PrevArrow(props) {
     const { className, style, onClick } = props;
     return (
         <div
-            className={`${className} ${styles.customArrow}`}
-            style={{ ...style, left: '10px', zIndex: 5 }}
+            className={`${className} ${styles.customArrow} ${styles.prevArrow}`}
+            style={{ ...style, left: '20px', zIndex: 5 }} // Posición ajustada
             onClick={onClick}
         >
-            &#9664; {/* Símbolo de flecha izquierda */}
+            &#10094; {/* Un símbolo de flecha izquierda más moderno */}
         </div>
     );
 }
@@ -29,11 +29,11 @@ function NextArrow(props) {
     const { className, style, onClick } = props;
     return (
         <div
-            className={`${className} ${styles.customArrow}`}
-            style={{ ...style, right: '10px', zIndex: 5 }}
+            className={`${className} ${styles.customArrow} ${styles.nextArrow}`}
+            style={{ ...style, right: '20px', zIndex: 5 }} // Posición ajustada
             onClick={onClick}
         >
-            &#9654; {/* Símbolo de flecha derecha */}
+            &#10095; {/* Un símbolo de flecha derecha más moderno */}
         </div>
     );
 }
@@ -46,11 +46,14 @@ export default function MenuAdmin() {
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 5000,
-        accessibility: false,
-        arrows: true, // Habilita las flechas predeterminadas
-        prevArrow: <PrevArrow />, // Usa la flecha personalizada
-        nextArrow: <NextArrow />, // Usa la flecha personalizada
+        autoplaySpeed: 4000, // Un poco más rápido para dinamismo
+        accessibility: true, // Mejorar accesibilidad
+        arrows: true,
+        prevArrow: <PrevArrow />,
+        nextArrow: <NextArrow />,
+        fade: true, // Efecto de desvanecimiento
+        cssEase: 'ease-in-out', // Suaviza la transición
+        pauseOnHover: true, // Pausa el autoplay al pasar el mouse
     };
 
     return (
@@ -102,7 +105,7 @@ export default function MenuAdmin() {
                                 <button onClick={() => window.location.href = 'analisis-institucion'}>Por Institución</button>
                             </div>
                         </div>
-                        <div className={styles.hexagon} onClick={() => window.location.href = '/tomar-Ast'}>
+                        <div className={styles.hexagon} onClick={() => window.location.href = 'tomar-Ast'}>
                             TOMAR ASISTENCIA
                         </div>
                         <div className={styles.hexagon} onClick={() => window.location.href = 'visualizar-est'}>
