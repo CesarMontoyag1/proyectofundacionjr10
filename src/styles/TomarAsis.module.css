@@ -1,95 +1,528 @@
 /* TomarAsis.module.css */
 
-/* --- General Styles --- */
-body {
-    overflow-y: auto; /* Permite scroll vertical */
-    overflow-x: hidden; /* Evita scroll horizontal innecesario */
-}
-.container {
-    background-color: white; /* Ensures the main background is white */
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    color: black;
-    min-height: 100vh; /* Ensure container takes full height */
-}
-
-/* --- Header Styles --- */
-.header {
-    text-align: center;
-    margin-top: 40px;
-    margin-bottom: 10px;
-
-}
-
-.title {
-    color: black; /* Texto negro */
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0;
-}
-
-
-/* --- Search Container Styles (Remains the same as you liked it) --- */
-.searchContainer {
-    background-color: black; /* Black background for the search bar */
-    border-radius: 15px; /* Rounded corners */
-    padding: 20px;
-    width: 90%; /* Wider than 80% to match the image more closely */
-    max-width: 900px; /* Increased max-width */
-    margin: 40px auto; /* Centered with more top margin */
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around; /* Distribute items with space around */
-    align-items: flex-end; /* Align items to the bottom */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.searchContainer > div {
+/* Contenedor principal de la página (equivalente a .container de AgregarUsu.css) */
+.mainContentWrapper {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    width: calc(25% - 20px); /* Approximately 4 columns, adjust as needed */
-    margin-bottom: 15px; /* Space between rows */
-    margin-right: 20px; /* Space between columns */
+    justify-content: flex-start; /* Alinea el contenido arriba */
+    align-items: center;
+    padding: 1.5rem;
+    padding-top: 120px; /* Empuja el contenido hacia abajo desde la parte superior */
+    box-sizing: border-box;
+    overflow-y: auto;
+    position: relative;
+    z-index: 1;
 }
 
-.searchContainer > div:last-of-type {
-    margin-right: 0; /* No right margin for the last item */
+/* El contenedor principal del formulario (equivalente a .form de AgregarUsu.css) */
+.formContainer {
+    background-color: black;
+    padding: 2.5rem 3.5rem;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 0, 0, 0.2);
+    max-width: 950px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin: 0 auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideUpFadeIn 0.9s ease-out forwards;
+    opacity: 0;
 }
 
+/* Animación de entrada */
+@keyframes slideUpFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Título principal del formulario */
+.title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: white;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.8px;
+    position: relative;
+    padding-bottom: 0.8rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    width: 100%;
+}
+
+.title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 5px;
+    background-color: #38bdf8;
+    border-radius: 3px;
+    box-shadow: 0 3px 8px rgba(56, 189, 248, 0.4);
+}
+
+/* --- Search Container Styles --- */
+.searchContainer {
+    background-color: transparent; /* Fondo transparente para el contenedor de búsqueda */
+    border-radius: 0; /* Sin bordes */
+    padding: 0; /* Sin padding */
+    width: 100%;
+    max-width: none;
+    margin: 0; /* Sin margen */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Columnas responsivas */
+    gap: 1.5rem; /* Espacio entre los elementos del grid */
+    align-items: flex-end; /* Alinea los elementos al final (útil si tienen diferentes alturas) */
+    box-shadow: none; /* Sin sombra */
+    border: none; /* Sin borde */
+    animation: none; /* Sin animación inicial */
+    opacity: 1; /* Completamente visible */
+    position: relative;
+    z-index: 1;
+}
+
+/* Estilos para cada grupo de formulario (label + input/select) */
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem; /* Espacio entre label y input */
+    margin-bottom: 0; /* Ya usamos gap en el grid, eliminamos margen inferior aquí */
+    /* min-width: 100%; */ /* Esta línea es redundante con grid-column: 1 / -1 y el comportamiento de grid-template-columns */
+}
+
+/* Regla específica para forzar al formGroup (o cualquier div hijo directo) a ocupar todo el ancho si es el único campo en una fila */
+.searchContainer > .formGroup:only-child, /* Cuando es el ÚNICO formGroup dentro del searchContainer */
+.searchContainer > div:first-child:nth-last-child(2), /* Para el primer campo de búsqueda si hay dos */
+.searchContainer > div:last-child:nth-child(2) { /* Para el segundo campo de búsqueda si hay dos */
+    /* Aseguramos que ocupen todo el ancho necesario en configuraciones de 1 o 2 campos */
+    /* Esto es más avanzado y podría requerir pruebas. Una solución más simple es solo grid-column: 1 / -1 para el único */
+}
+
+/* Regla para el campo de documento en VisualizarEstudiante y otros donde solo hay un campo de formGroup */
+.searchContainer > .formGroup:last-of-type:nth-last-of-type(2) {
+    /* Esto es complejo. La mejor forma para un solo campo es `grid-column: 1 / -1;` como está abajo */
+}
+
+/* Esta es la regla más efectiva para que UN SOLO campo dentro de searchContainer ocupe todo el ancho */
+.searchContainer > .formGroup {
+    grid-column: 1 / -1; /* Hace que este formGroup ocupe todas las columnas disponibles */
+}
+
+/* Estilos para el texto del label */
 .searchContainer label {
-    color: white; /* White text for labels */
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-size: 14px;
-    text-align: center; /* Center the labels */
+    color: #a0a0a0;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: left;
+    transition: color 0.3s ease;
 }
 
-.searchContainer input[type="date"],
+/* Estilos para los campos de entrada (input y select) */
+.searchContainer input,
 .searchContainer select {
     width: 100%;
-    padding: 8px 12px; /* Adjusted padding */
-    border: 1px solid #555; /* Darker border for inputs */
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 14px;
-    background-color: #333; /* Darker background for inputs */
-    color: white; /* White text in inputs/selects */
-    -webkit-appearance: none; /* Remove default arrow on select for better styling */
-    -moz-appearance: none;
-    appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2C197.6c-4.4%2C4.4-10.8%2C6.9-17.6%2C6.9s-13.2-2.5-17.6-6.9L146.2%2C89.4L44.4%2C191.2c-4.4%2C4.4-10.8%2C6.9-17.6%2C6.9s-13.2-2.5-17.6-6.9c-9.7-9.7-9.7-25.5%2C0-35.2L128.6%2C47.8c9.7-9.7%2C25.5-9.7%2C35.2%2C0L287%2C162.4C296.7%2C172.1%2C296.7%2C187.9%2C287%2C197.6z%22%2F%3E%3C%2Fsvg%3E'); /* Custom dropdown arrow */
+    padding: 0.9rem 1.1rem;
+    border: 1px solid #444;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    background-color: #2b2b2b;
+    color: #e0e0e0;
+    transition: all 0.3s ease-in-out;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    -webkit-appearance: none; /* Para select */
+    -moz-appearance: none; /* Para select */
+    appearance: none; /* Para select */
+}
+
+/* Estilos específicos para el indicador de fecha en inputs de tipo date */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8); /* Hace el ícono del calendario blanco */
+    cursor: pointer;
+}
+
+/* Ocultar botones de spin en inputs de tipo date/number si es necesario */
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-clear-button {
+    display: none;
+}
+
+/* Efectos de foco para inputs y selects */
+.searchContainer input:focus,
+.searchContainer select:focus {
+    border-color: #38bdf8; /* Borde azul al enfocar */
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.5);
+    background-color: #3a3a3a; /* Fondo más oscuro al enfocar */
+    outline: none; /* Eliminar el outline por defecto del navegador */
+}
+
+/* Estilo para el ícono de flecha en selects */
+.searchContainer select {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23a0a0a0%22%20d%3D%22M287%2C194.2L146.2%2C53.4L5.4%2C194.2c-7.5%2C7.5-19.8%2C7.5-27.3%2C0c-7.5-7.5-7.5-19.8%2C0-27.3l135.4-135.4c4.6-4.6%2C10.6-7%2C16.9-7c6.3%2C0%2C12.3%2C2.4%2C16.9%2C7l135.4%2C135.4c7.5%2C7.5%2C7.5%2C19.8%2C0%2C27.3C306.7%2C201.7%2C294.5%2C201.7%2C287%2C194.2z%22%2F%3E%3C%2Fsvg%3E');
     background-repeat: no-repeat;
-    background-position: right 10px top 50%;
-    background-size: 12px auto;
+    background-position: right 1rem center;
+    background-size: 0.7em;
+    padding-right: 2.5rem; /* Asegura espacio para la flecha */
+    cursor: pointer;
 }
 
-.searchContainer input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1); /* Invert color for date picker icon to white */
+/* Contenedor para los botones de búsqueda */
+.searchButtonWrapper {
+    grid-column: 1 / -1; /* Fuerza al botón a ocupar todas las columnas disponibles */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.5rem;
+    gap: 1.5rem; /* Espacio entre botones si hay varios */
 }
 
-.searchContainer button {
-    background-color: #38bdf8; /* Blue button for "Buscar" */
+/* Estilos para los botones de búsqueda */
+.searchContainer button { /* Nombres más genéricos para reutilizar */
+    width: 60%;
+    max-width: 250px;
+    padding: 0.9rem 1.2rem;
+    background-color: #38bdf8;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(56, 189, 248, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto hover con brillo */
+.searchContainer button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.searchContainer button:hover::before {
+    left: 100%;
+}
+
+/* Efecto hover y active para botones */
+.searchContainer button:hover {
+    background-color: #008cdb;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(56, 189, 248, 0.5);
+}
+
+.searchContainer button:active {
+    background-color: #007bb3;
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(56, 189, 248, 0.2);
+}
+
+/* --- Table Styles --- */
+.tableContainer {
+    margin: 0 auto;
+    width: 100%;
+    max-width: none;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: none;
+    opacity: 1;
+    color: black; /* Asegura que el texto dentro de la tabla sea negro */
+}
+
+.tableContainer table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.tableContainer th,
+.tableContainer td {
+    padding: 1rem 1.2rem;
+    text-align: left;
+    color: #333;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.9rem;
+}
+
+.tableContainer th {
+    background-color: #f2f4f6;
+    font-weight: 700;
+    color: #444;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tableContainer th:first-child {
+    border-top-left-radius: 10px;
+}
+.tableContainer th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.tableContainer tr:last-child td {
+    border-bottom: none;
+}
+
+.tableContainer tr:nth-child(even) {
+    background-color: #fcfcfc;
+}
+
+.tableContainer tr:hover {
+    background-color: #f5f8fb;
+}
+
+/* Checkbox para asistencia */
+.tableContainer input[type="checkbox"] {
+    transform: scale(1.3);
+    cursor: pointer;
+    accent-color: #38bdf8;
+    border-radius: 3px;
+    outline: none;
+    box-shadow: none;
+}
+
+.tableContainer input[type="checkbox"]:focus {
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+}
+
+/* Botón "Registrar Asistencia" */
+.registrarAsistenciaButton {
+    width: 45%;
+    max-width: 300px;
+    padding: 1rem 2rem;
+    background-color: #38bdf8;
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 800;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    margin: 0 auto;
+    transition: all 0.3s ease-in-out;
+    letter-spacing: 0.8px;
+    box-shadow: 0 6px 15px rgba(56, 189, 248, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.registrarAsistenciaButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.registrarAsistenciaButton:hover::before {
+    left: 100%;
+}
+
+.registrarAsistenciaButton:hover {
+    background-color: #008cdb;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(56, 189, 248, 0.7);
+}
+
+.registrarAsistenciaButton:active {
+    background-color: #007bb3;
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(56, 189, 248, 0.3);
+}
+
+/* --- Media Queries --- */
+@media (max-width: 1024px) {
+    .mainContentWrapper {
+        padding-top: 70px;
+    }
+    .formContainer {
+        padding: 2rem 2.5rem;
+        gap: 1.5rem;
+        max-width: 95%;
+        width: auto;
+    }
+    .title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    .searchContainer {
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    /* Asegurar que el formGroup único siga en una sola columna */
+    .searchContainer > .formGroup {
+        grid-column: 1 / -1;
+    }
+    .searchContainer label {
+        font-size: 0.8rem;
+    }
+    .searchContainer input,
+    .searchContainer select {
+        padding: 0.8rem 1rem;
+        font-size: 0.8rem;
+    }
+    .searchContainer button {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+        width: 70%;
+    }
+    .tableContainer {
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+    .tableContainer th,
+    .tableContainer td {
+        padding: 0.8rem 1rem;
+        font-size: 0.8rem;
+    }
+    .registrarAsistenciaButton {
+        width: 55%;
+        font-size: 0.9rem;
+        padding: 0.9rem 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .mainContentWrapper {
+        padding-top: 60px;
+    }
+    .formContainer {
+        padding: 1.5rem 2rem;
+        gap: 1rem;
+        border-radius: 15px;
+        width: 95%;
+    }
+    .title {
+        font-size: 1.6rem;
+        margin-bottom: 0.8rem;
+    }
+    .searchContainer {
+        gap: 0.8rem;
+        grid-template-columns: 1fr; /* Una sola columna para todos los campos */
+    }
+    /* Asegurar que el formGroup único siga en una sola columna */
+    .searchContainer > .formGroup {
+        grid-column: 1 / -1;
+    }
+    .searchButtonWrapper {
+        padding-top: 0.3rem;
+    }
+    .searchContainer button {
+        width: 80%;
+        font-size: 0.85rem;
+        padding: 0.7rem 0.9rem;
+    }
+    .tableContainer {
+        padding: 1rem;
+        gap: 0.8rem;
+        border-radius: 12px;
+    }
+    .tableContainer th,
+    .tableContainer td {
+        padding: 0.7rem 0.9rem;
+        font-size: 0.75rem;
+    }
+    .registrarAsistenciaButton {
+        width: 70%;
+        font-size: 0.8rem;
+        padding: 0.8rem 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .mainContentWrapper {
+        padding-top: 50px;
+    }
+    .formContainer {
+        padding: 1rem;
+        gap: 0.8rem;
+        border-radius: 12px;
+    }
+    .title {
+        font-size: 1.4rem;
+        margin-bottom: 0.6rem;
+    }
+    .searchContainer {
+        gap: 0.6rem;
+    }
+    /* Asegurar que el formGroup único siga en una sola columna */
+    .searchContainer > .formGroup {
+        grid-column: 1 / -1;
+    }
+    .searchContainer label {
+        font-size: 0.75rem;
+    }
+    .searchContainer input,
+    .searchContainer select {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.75rem;
+        border-radius: 6px;
+    }
+    .searchContainer button {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.8rem;
+        border-radius: 6px;
+        width: 90%;
+    }
+    .tableContainer {
+        padding: 0.6rem;
+        gap: 0.6rem;
+        border-radius: 10px;
+    }
+    .tableContainer th,
+    .tableContainer td {
+        padding: 0.5rem 0.7rem;
+        font-size: 0.7rem;
+    }
+    .registrarAsistenciaButton {
+        width: 80%;
+        font-size: 0.75rem;
+        padding: 0.7rem 1rem;
+        border-radius: 8px;
+    }
+}
+
+.editButtonWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.editContainerbutton {
+    background-color: #38bdf8;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -98,129 +531,32 @@ body {
     font-size: 16px;
     font-weight: bold;
     transition: background-color 0.3s ease;
-    width: auto; /* Allow button to size itself */
-    margin-top: 20px; /* Space above the button */
-    align-self: flex-end; /* Align button to the bottom */
+    width: auto;
 }
 
-.searchContainer button:hover {
+.editContainerbutton:hover {
     background-color: #0056b3;
 }
 
-/* Specific styling for the "Buscar" button's container */
-.searchButtonWrapper {
-    position: relative;
-    left: -7%;
+.deletebuttonContainer {
     display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+    justify-content: center;
+    gap: 20px; /* Espaciado entre los botones */
+    margin-top: 20px; /* Ajustado para estar más cerca de la tabla */
 }
 
-
-
-/* --- Table Styles (Existing, ensure they look good with the new header/search) --- */
-.tableContainer {
-    margin: 30px auto;
-    width: 90%;
-    max-width: 900px;
-    color: black;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow-x: auto;
-}
-
-.tableContainer table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.tableContainer th,
-.tableContainer td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-}
-
-.tableContainer th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-    color: #333;
-}
-
-.tableContainer tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.tableContainer tr:hover {
-    background-color: #f1f1f1;
-}
-
-.tableContainer button {
-    background-color: #38bdf8;
+.deleteButton {
+    background-color: #f87171; /* Rojo claro */
     color: white;
-    padding: 10px 20px;
+    padding: 10px 25px; /* Botones más grandes */
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 20px;
-    display: block;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
-.tableContainer button:hover {
-    background-color: #0056b3;
-}
-
-/* --- Media Queries --- */
-@media (max-width: 768px) {
-    .searchContainer > div {
-        width: calc(50% - 20px); /* Two columns on smaller screens */
-        margin-right: 20px;
-    }
-    .searchContainer > div:nth-child(2n) { /* No right margin for every second item */
-        margin-right: 0;
-    }
-    .searchContainer > div:nth-child(odd):last-child {
-        margin-right: 0;
-    }
-
-    .searchContainer button {
-        width: 100%; /* Full width button on smaller screens */
-        margin-top: 20px;
-    }
-    .searchContainer .searchButtonWrapper {
-        width: 100%;
-        margin-right: 0;
-    }
-
-    /* Adjust header for smaller screens */
-    .header {
-        padding-top: 10px;
-        min-height: auto;
-    }
-    .title {
-        font-size: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .searchContainer > div {
-        width: 100%; /* Single column on very small screens */
-        margin-right: 0;
-    }
-    .searchContainer {
-        padding: 15px;
-        margin: 20px auto;
-    }
-    .header {
-        padding: 10px;
-    }
-    .title {
-        font-size: 18px;
-    }
+.deleteButton:hover {
+    background-color: #dc2626; /* Rojo más oscuro */
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import NavBarWithButtons from './NavBarWithButtons';
-import styles from '../styles/VisualizarEst.module.css';
-import fondoDepantalla5 from '../assets/fondoblanco.png';
+import styles from '../styles/TomarAsis.module.css'; // ¡Usamos el CSS de TomarAsis!
+import fondoDepantalla from '../assets/fondoblanco.png'; // Importamos la imagen de fondo
 
 const VisualizarEst = () => {
     const [documento, setDocumento] = useState('');
@@ -44,59 +44,65 @@ const VisualizarEst = () => {
     };
 
     return (
-        <div
-            className={styles.container}
-            style={{
-                backgroundImage: `url(${fondoDepantalla5})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                color: 'white',
-            }}
-        >
+        <>
             <NavBarWithButtons />
 
-            <header className={styles.header}>
-                <h1 className={styles.title}>Visualizar Estudiante</h1>
-            </header>
+            <div
+                className={styles.mainContentWrapper}
+                style={{
+                    backgroundImage: `url(${fondoDepantalla})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundAttachment: 'fixed',
+                    backgroundColor: '#f0f2f5',
+                    color: 'white',
+                }}
+            >
+                <div className={styles.formContainer}>
+                    <h1 className={styles.title}>Visualizar Estudiante</h1>
 
-            <div className={styles.searchContainer}>
-                <div>
-                    <label htmlFor="documento">Documento de Identidad</label>
-                    <input
-                        type="text"
-                        id="documento"
-                        value={documento}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div className={styles.searchButtonWrapper}>
-                    <button onClick={buscarEstudiante}>Buscar</button>
+                    <div className={styles.searchContainer}>
+                        {/* AHORA USAMOS styles.formGroup para el campo de documento */}
+                        <div className={styles.formGroup}>
+                            <label htmlFor="documento">Documento de Identidad</label>
+                            <input
+                                type="text"
+                                id="documento"
+                                value={documento}
+                                onChange={handleInputChange}
+                                placeholder="Ingrese el número de documento"
+                            />
+                        </div>
+                        <div className={styles.searchButtonWrapper}>
+                            <button onClick={buscarEstudiante}>Buscar</button>
+                        </div>
+                    </div>
+
+                    {estudiante && (
+                        <div className={styles.tableContainer}>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Documento</th>
+                                    <th>Asistencias</th>
+                                    <th>Inasistencias</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{estudiante.nombre}</td>
+                                    <td>{estudiante.documento}</td>
+                                    <td>{estudiante.asistencias}</td>
+                                    <td>{estudiante.inasistencias}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
                 </div>
             </div>
-
-            {estudiante && (
-                <div className={styles.tableContainer}>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Documento</th>
-                            <th>Asistencias</th>
-                            <th>Inasistencias</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>{estudiante.nombre}</td>
-                            <td>{estudiante.documento}</td>
-                            <td>{estudiante.asistencias}</td>
-                            <td>{estudiante.inasistencias}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            )}
-        </div>
+        </>
     );
 };
 

@@ -1,7 +1,7 @@
-// src/components/EditareliminarUsu.jsx
 import React, { useState } from 'react';
 import NavBarWithButtons from './NavBarWithButtons';
-import styles from '../styles/Editareliminar.module.css';
+// ¡Importamos el CSS compartido!
+import styles from '../styles/TomarAsis.module.css';
 import fondoDepantalla10 from '../assets/fondoblanco.png';
 
 export default function EditareliminarUsu() {
@@ -52,6 +52,13 @@ export default function EditareliminarUsu() {
 
     const handleEditar = async () => {
         if (!userData) return;
+
+        // Validar que los campos críticos no estén vacíos
+        if (!userData.nombre || !userData.apellido || !userData.username || !userData.email || !userData.rol) {
+            alert('Todos los campos son obligatorios. Por favor, completa la información.');
+            return;
+        }
+
         const payload = {
             numDoc: userData.numDoc,
             tipoDoc: userData.tipoDoc,
@@ -85,6 +92,11 @@ export default function EditareliminarUsu() {
 
     const handleEliminar = async () => {
         if (!userData) return;
+        // Confirmación antes de eliminar
+        if (!window.confirm('¿Estás seguro de que quieres eliminar este usuario? Esta acción es irreversible.')) {
+            return;
+        }
+
         const payload = { numDoc: userData.numDoc, tipoDoc: userData.tipoDoc };
         console.log('handleEliminar → envío:', payload);
 
@@ -113,96 +125,124 @@ export default function EditareliminarUsu() {
         <>
             <NavBarWithButtons />
             <div
-                className={styles.container}
+                className={styles.mainContentWrapper} // Usamos la clase de TomarAsis.module.css
                 style={{
-                    backgroundImage: `url(${fondoDepantalla10})`, // Fondo de imagen
+                    backgroundImage: `url(${fondoDepantalla10})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
+                    backgroundAttachment: 'fixed',
+                    backgroundColor: '#f0f2f5', // Color de respaldo
                     color: 'white',
                 }}
             >
-                <h1 className={styles.title}>Editar o Eliminar Usuario</h1>
+                <div className={styles.formContainer}> {/* Usamos la clase de TomarAsis.module.css */}
+                    <h1 className={styles.title}>Editar o Eliminar Usuario</h1>
 
-                <div className={styles.searchContainer}>
-                    <div>
-                        <label htmlFor="tipoDocumento">Tipo de Documento</label>
-                        <select
-                            id="tipoDocumento"
-                            value={formData.tipoDocumento}
-                            onChange={handleInputChange}
-                        >
-                            <option value="">Seleccionar Tipo</option>
-                            <option value="CC">Cédula de Ciudadanía</option>
-                            <option value="TI">Tarjeta de Identidad</option>
-                            <option value="CE">Cédula de Extranjería</option>
-                            <option value="Otro">Otro</option>
-                        </select>
+                    <div className={styles.searchContainer}> {/* Contenedor para búsqueda */}
+                        <div className={styles.formGroup}> {/* Primer campo de búsqueda */}
+                            <label htmlFor="tipoDocumento">Tipo de Documento</label>
+                            <select
+                                id="tipoDocumento"
+                                value={formData.tipoDocumento}
+                                onChange={handleInputChange}
+                            >
+                                <option value="">Seleccionar Tipo</option>
+                                <option value="CC">Cédula de Ciudadanía</option>
+                                <option value="TI">Tarjeta de Identidad</option>
+                                <option value="CE">Cédula de Extranjería</option>
+                                {/* <option value="Otro">Otro</option> // Si es necesario, añadir en la base de datos */}
+                            </select>
+                        </div>
+                        <div className={styles.formGroup}> {/* Segundo campo de búsqueda */}
+                            <label htmlFor="numeroDocumento">Número de Documento</label>
+                            <input
+                                type="text"
+                                id="numeroDocumento"
+                                value={formData.numeroDocumento}
+                                onChange={handleInputChange}
+                                placeholder="Ingrese el número de documento"
+                            />
+                        </div>
+                        <div className={styles.searchButtonWrapper}> {/* Botón de búsqueda */}
+                            <button onClick={buscarUsuario}>Buscar</button>
+                        </div>
                     </div>
-                    <div>
-                        <label htmlFor="numeroDocumento">Número de Documento</label>
-                        <input
-                            type="text"
-                            id="numeroDocumento"
-                            value={formData.numeroDocumento}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div className={styles.searchButtonWrapper}>
-                        <button onClick={buscarUsuario}>Buscar</button>
-                    </div>
-                </div>
 
-                {userData && (
-                    <div className={styles.tableContainer}>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Tipo</th>
-                                <th>Número</th>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Usuario</th>
-                                <th>Email</th>
-                                <th>Rol</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>{userData.tipoDoc}</td>
-                                <td>{userData.numDoc}</td>
-                                <td>
+                    {userData && (
+                        <div className={styles.tableContainer}> {/* Usamos tableContainer para mostrar los datos editables */}
+                            <div className={styles.searchContainer} style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+                                {/* Los datos del usuario se muestran como formGroup individuales */}
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="tipoDoc">Tipo de Documento</label>
+                                    <select
+                                        name="tipoDoc"
+                                        value={userData.tipoDoc}
+                                        onChange={handleEditChange}
+                                        disabled={!isEditing || userData.tipoDoc} // Deshabilitar si no se está editando o si ya tiene un valor (para evitar cambios en el ID)
+                                    >
+                                        <option value="CC">Cédula de Ciudadanía</option>
+                                        <option value="TI">Tarjeta de Identidad</option>
+                                        <option value="CE">Cédula de Extranjería</option>
+                                        {/* <option value="Otro">Otro</option> */}
+                                    </select>
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="numDoc">Número de Documento</label>
                                     <input
+                                        type="text"
+                                        name="numDoc"
+                                        value={userData.numDoc}
+                                        onChange={handleEditChange}
+                                        disabled={!isEditing || userData.numDoc} // Deshabilitar si no se está editando o si ya tiene un valor
+                                        readOnly // Solo lectura para el campo de documento una vez cargado
+                                    />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="nombre">Nombre</label>
+                                    <input
+                                        type="text"
                                         name="nombre"
                                         value={userData.nombre}
                                         onChange={handleEditChange}
                                         disabled={!isEditing}
+                                        placeholder="Nombre"
                                     />
-                                </td>
-                                <td>
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="apellido">Apellido</label>
                                     <input
+                                        type="text"
                                         name="apellido"
                                         value={userData.apellido}
                                         onChange={handleEditChange}
                                         disabled={!isEditing}
+                                        placeholder="Apellido"
                                     />
-                                </td>
-                                <td>
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="username">Nombre de Usuario</label>
                                     <input
+                                        type="text"
                                         name="username"
                                         value={userData.username}
                                         onChange={handleEditChange}
                                         disabled={!isEditing}
+                                        placeholder="Nombre de Usuario"
                                     />
-                                </td>
-                                <td>
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="email">Email</label>
                                     <input
+                                        type="email"
                                         name="email"
                                         value={userData.email}
                                         onChange={handleEditChange}
                                         disabled={!isEditing}
+                                        placeholder="Correo Electrónico"
                                     />
-                                </td>
-                                <td>
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="rol">Rol</label>
                                     <select
                                         name="rol"
                                         value={userData.rol}
@@ -211,35 +251,39 @@ export default function EditareliminarUsu() {
                                     >
                                         <option value="administrativo">Administrativo</option>
                                         <option value="profesor">Profesor</option>
+                                        {/* Agrega otros roles si existen */}
                                     </select>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <div className={styles.buttonContainer}>
-                            <button
-                                className={styles.editButton}
-                                onClick={() => setIsEditing(edit => !edit)}
-                            >
-                                {isEditing ? 'Cancelar' : 'Editar'}
-                            </button>
-                            {isEditing && (
+                                </div>
+                            </div>
+
+                            <div className={styles.editButtonWrapper} style={{ justifyContent: 'center', display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: '20px' }}>
                                 <button
-                                    className={styles.editButton}
-                                    onClick={handleEditar}
+                                    className={styles.editContainerbutton}
+                                    onClick={() => setIsEditing(edit => !edit)}
+                                    style={{ backgroundColor: isEditing ? '#f87171' : '#38bdf8' }} // Rojo para Cancelar, Azul para Editar
                                 >
-                                    Guardar
+                                    {isEditing ? 'Cancelar' : 'Editar'}
                                 </button>
-                            )}
-                            <button
-                                className={styles.deleteButton}
-                                onClick={handleEliminar}
-                            >
-                                Eliminar
-                            </button>
+                                {isEditing && (
+                                    <button
+                                        className={styles.editContainerbutton}
+                                        onClick={handleEditar}
+                                        style={{ backgroundColor: '#38bdf8' }} // Azul para Guardar
+                                    >
+                                        Guardar
+                                    </button>
+                                )}
+                                <button
+                                    className={styles.deleteButton}
+                                    onClick={handleEliminar}
+                                    style={{ backgroundColor: '#dc2626' }} // Rojo más oscuro para Eliminar
+                                >
+                                    Eliminar
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </>
     );
