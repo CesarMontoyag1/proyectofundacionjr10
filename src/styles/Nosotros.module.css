@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap');
+
+
+
+.aboutSection {
+    position: relative;
+    width: 100%;
+    height: auto; /* Cambia de 100% a auto para que crezca con el contenido */
+    padding-bottom: 5rem; /* Añade espacio adicional hacia abajo */
+}
+
+
+.circle {
+    border-radius: 50%;
+    background-color: rgba(56, 189, 248, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute; /* Permite posicionar cada círculo individualmente */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.circle:hover {
+    background-color: rgba(255, 255, 255, 0.78)
+}
+
+.defaultText,
+.hoverText {
+    position: absolute;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    transition: opacity 0.3s ease;
+}
+
+.defaultText {
+    position: absolute;
+    color: white;
+    font-size: 5rem; /* Ajusta el tamaño según sea necesario */
+    font-weight: bold;
+    text-align: center;
+    transition: opacity 0.3s ease;
+    font-family: 'Amatic SC', sans-serif; /* Aplica la tipografía */
+}
+
+.hoverText {
+    opacity: 0;
+    font-family: 'Kumbh Sans', sans-serif; /* Aplica la tipografía */
+}
+
+.circle:hover .defaultText {
+    opacity: 0;
+}
+
+.circle:hover .hoverText {
+    opacity: 1;
+    color: black;
+
+}
+
+/* Estilos específicos para cada círculo */
+.circle1 {
+    width: 290px;
+    height: 290px;
+    top: 10px;
+    left: 120px;
+}
+
+.circle2 {
+    width: 320px;
+    height: 320px;
+    top: 330px;
+    left: 450px;
+}
+
+.circle3 {
+    width: 400px;
+    height: 400px;
+    top: 50px;
+    left: 950px;
+}
+.title {
+    font-size: 6rem; /* Cambia el tamaño del texto */
+    text-align: center; /* Centra el texto horizontalmente */
+    position: absolute; /* Permite posicionarlo libremente */
+    top: 310px; /* Ajusta la posición vertical */
+    left: 47%; /* Centra horizontalmente */
+    transform: translateX(-50%); /* Corrige el desplazamiento horizontal */
+    color: white; /* Asegúrate de que el texto sea legible */
+}

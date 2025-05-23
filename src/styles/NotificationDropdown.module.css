@@ -1,0 +1,91 @@
+.dropdown {
+    position: absolute;
+    top: 30px; /* Ajusta según la posición de tu campanita */
+    right: 3px;
+    background-color: white;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 320px; /* Ancho ajustado para la línea */
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    font-family: Arial, sans-serif;
+    font-size: 0.8em; /* ¡Más pequeño! */
+    max-height: 300px; /* Altura máxima para habilitar scroll */
+    overflow-y: auto; /* Habilitar scroll vertical */
+}
+
+.dropdown h4 {
+    margin-top: 0;
+    margin-bottom: 8px; /* Menos margen inferior */
+    color: #3b82f6;
+    font-size: 1em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 6px; /* Menos padding inferior */
+}
+
+.dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notificationItem {
+    padding: 4px 0; /* Menos padding para mayor compacidad */
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 1.2; /* Menor altura de línea */
+    word-wrap: break-word; /* Asegura que el texto se rompa si es muy largo */
+}
+
+.notificationItem:last-child {
+    border-bottom: none;
+}
+
+.noNotificationsText {
+    font-style: italic;
+    color: #666;
+    text-align: center;
+    padding: 5px;
+    font-size: 0.9em; /* Para que el texto de "no hay notificaciones" no sea tan pequeño */
+}
+
+/* Estilo para el badge de notificación (el círculo con el número) */
+.notificationBadge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #dc3545; /* Rojo de alerta */
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.6em; /* Un poco más pequeño para el número */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 16px;
+    height: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos de la campana y botón de notificación */
+.notificationIcon {
+    font-size: 1.4em;
+    color: #555;
+}
+
+.notificationButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notificationButton:hover .notificationIcon {
+    color: #007bff;
+}

@@ -1,0 +1,356 @@
+/* Contenedor principal de la página */
+.container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente el formulario */
+    align-items: center; /* Centra verticalmente el formulario */
+    padding: 1.5rem; /* Ligeramente menos padding alrededor */
+    background-color: #f0f2f5; /* Un fondo muy suave, casi imperceptible */
+    /* Las propiedades de backgroundImage, backgroundSize, backgroundPosition ya vienen del .jsx */
+    background-attachment: fixed; /* Asegura que el fondo permanezca fijo al hacer scroll */
+    overflow-y: auto; /* Permite desplazamiento si el contenido es demasiado largo para la vista */
+    color: #2c3e50; /* Color de texto predeterminado para el contenedor general si no se sobrescribe */
+}
+
+/* Contenedor principal del formulario (ahora también contiene el título) */
+.form {
+    background-color: black; /* Fondo blanco puro */
+    padding: 2.5rem 3.5rem; /* Padding ajustado para un look más compacto y centrado*/
+    padding-top: 2rem; /* Ajuste el padding superior para el título */
+    border-radius: 18px; /* Ligeramente menos redondeado para un look más ajustado */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.04); /* Sombra ajustada */
+    max-width: 780px; /* Ancho máximo significativamente reducido (¡manteniendo el que te gustó!) */
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr; /* Una columna para el título, otra para fieldsContainer, otra para el botón */
+    gap: 2rem; /* Espacio entre el título, fieldsContainer y el botón */
+    margin: 0 auto; /* Centrar el formulario */
+    animation: slideUpFadeIn 0.9s ease-out forwards; /* Animación de entrada */
+    border: 1px solid #e0e0e0; /* Borde muy sutil */
+}
+
+/* Animación de entrada para el formulario */
+@keyframes slideUpFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Título principal del formulario (ahora dentro del .form) */
+.title {
+    font-size: 2.8rem; /* Tamaño de fuente del título ligeramente reducido */
+    font-weight: 800; /* Extra bold para mayor presencia */
+    color: white; /* Azul oscuro profundo */
+    text-align: center;
+    margin-bottom: 1.5rem; /* Espacio debajo del título ajustado (ahora separado del fieldsContainer) */
+    letter-spacing: 0.8px; /* Ligero espaciado entre letras */
+    position: relative; /* Para el pseudo-elemento decorativo */
+    padding-bottom: 0.8rem; /* Espacio para el subrayado */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Sombra de texto sutil */
+    grid-column: 1 / -1; /* Ocupa todo el ancho */
+}
+
+/* Subrayado decorativo para el título */
+.title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 100px; /* Ancho del subrayado ligeramente reducido */
+    height: 5px; /* Grosor del subrayado */
+    background-color: #38bdf8; /* Tu color azul vibrante */
+    border-radius: 3px; /* Bordes redondeados para el subrayado */
+    box-shadow: 0 3px 8px rgba(56, 189, 248, 0.4); /* Sombra ajustada */
+}
+
+/* NUEVO: Contenedor para todos los campos */
+.fieldsContainer {
+    background-color: #f8f9fa; /* Un blanco roto o gris muy claro para diferenciarlo */
+    padding: 2rem; /* Padding interno para los campos */
+    border-radius: 12px; /* Bordes redondeados para este bloque */
+    border: 1px solid #e9ecef; /* Borde sutil */
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.04); /* Sombra interna para dar profundidad */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Organiza las 2 .column divs en 2 columnas */
+    gap: 2rem; /* Espacio entre las "columnas" dentro de este contenedor */
+}
+
+
+/* Estilos para cada columna de campos (AHORA SON SUB-COLUMNAS dentro de fieldsContainer) */
+/* Los estilos de fondo, padding, border, shadow de .column se han movido a .fieldsContainer */
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Espacio entre los grupos de formulario dentro de la sub-columna */
+    /* Eliminamos aquí los estilos que causaban la separación visual, ya los maneja .fieldsContainer */
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    align-self: stretch; /* Se estira para ocupar toda la altura disponible en la fila del grid */
+}
+
+/* Títulos de sección dentro de las columnas (opcional, si los añades en JSX) */
+.sectionTitle {
+    font-size: 1.5rem; /* Tamaño de fuente ligeramente reducido */
+    font-weight: 700;
+    color: #34495e;
+    margin-bottom: 1rem; /* Espacio ajustado */
+    text-align: left;
+    padding-bottom: 0.7rem;
+    border-bottom: 2px solid #e9ecef;
+    position: relative;
+    padding-left: 0.5rem;
+    /* Asegura que el título de sección ocupe todo el ancho si se usa dentro de una .column */
+    /* No es necesario si se usa directamente en .fieldsContainer antes de .column divs */
+}
+
+.sectionTitle::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px; /* Ancho ligeramente reducido */
+    height: 65%; /* Altura ligeramente reducida */
+    background-color: #38bdf8;
+    border-radius: 3px;
+}
+
+/* Grupo de formulario (etiqueta + input/select) */
+.formGroup {
+    margin-bottom: 0; /* Ya usamos gap en el grid, eliminamos margen inferior aquí */
+}
+
+label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.7rem; /* Espacio ajustado */
+    color: #555;
+    font-size: 0.95rem; /* Tamaño de fuente ligeramente reducido */
+    transition: color 0.3s ease;
+}
+
+/* Estilos para Inputs y Selects */
+input,
+select {
+    width: 100%;
+    padding: 0.9rem 1.2rem; /* Padding reducido para un look más compacto */
+    border: 1px solid #c9d6df;
+    border-radius: 8px; /* Bordes ligeramente menos redondeados */
+    font-size: 1rem; /* Tamaño de fuente ajustado */
+    color: #333;
+    background-color: #fdfdfd;
+    transition: all 0.3s ease-in-out;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03); /* Sombra interna ajustada */
+    box-sizing: border-box;
+}
+
+input:focus,
+select:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2); /* Sombra de brillo ajustada */
+    background-color: #ffffff;
+    outline: none;
+}
+
+/* Estilo para el ícono de flecha en el select (personalizado) */
+select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236c757d%22%20d%3D%22M287%2C194.2L146.2%2C53.4L5.4%2C194.2c-7.5%2C7.5-19.8%2C7.5-27.3%2C0c-7.5-7.5-7.5-19.8%2C0-27.3l135.4-135.4c4.6-4.6%2C10.6-7%2C16.9-7c6.3%2C0%2C12.3%2C2.4%2C16.9%2C7l135.4%2C135.4c7.5%2C7.5%2C7.5%2C19.8%2C0%2C27.3C306.7%2C201.7%2C294.5%2C201.7%2C287%2C194.2z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 1rem center; /* Posición de flecha ajustada */
+    background-size: 0.7em; /* Tamaño de flecha ajustado */
+    padding-right: 2.5rem; /* Deja espacio para la flecha ajustado */
+    cursor: pointer;
+}
+
+/* Botón de envío */
+.submitButton {
+    grid-column: 1 / -1;
+    width: 50%; /* Ancho ajustado para que se vea bien en el formulario más pequeño */
+    max-width: 380px; /* Límite de ancho */
+    padding: 1rem 2rem; /* Padding ligeramente reducido */
+    background-color: #38bdf8;
+    color: white;
+    font-size: 1.2rem; /* Tamaño de fuente ligeramente reducido */
+    font-weight: 700;
+    border: none;
+    border-radius: 10px; /* Ligeramente menos redondeado */
+    cursor: pointer;
+    text-align: center;
+    margin: 2.5rem auto 0 auto; /* Margen superior ajustado */
+    transition: all 0.3s ease-in-out;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 20px rgba(56, 189, 248, 0.3); /* Sombra ajustada */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto de brillo al pasar el mouse sobre el botón */
+.submitButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.submitButton:hover::before {
+    left: 100%;
+}
+
+.submitButton:hover {
+    background-color: #008cdb;
+    transform: translateY(-5px); /* Efecto de "levantamiento" ajustado */
+    box-shadow: 0 12px 25px rgba(56, 189, 248, 0.5); /* Sombra más grande y prominente */
+}
+
+.submitButton:active {
+    background-color: #007bb3;
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(56, 189, 248, 0.2);
+}
+
+/* --- Media Queries para Responsividad --- */
+
+/* Tablets y pantallas medianas (de 1024px a 769px) */
+@media (max-width: 1024px) {
+    .form {
+        padding: 2rem 2.5rem;
+        padding-top: 1.5rem;
+        gap: 1.8rem;
+        max-width: 700px; /* Ajuste de ancho máximo para tablets */
+    }
+    .title {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+    }
+    .title::after {
+        width: 80px;
+        height: 4px;
+    }
+    .fieldsContainer { /* Ajuste para tablets */
+        grid-template-columns: 1fr; /* Una sola columna de campos en tablets */
+        padding: 1.5rem;
+    }
+    .submitButton {
+        width: 60%;
+        padding: 0.9rem 1.8rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* Móviles grandes (de 768px a 481px) */
+@media (max-width: 768px) {
+    .form {
+        grid-template-columns: 1fr;
+        padding: 1.8rem 2rem;
+        padding-top: 1.2rem;
+        gap: 1.2rem;
+        border-radius: 12px;
+    }
+    .title {
+        font-size: 2rem;
+        margin-bottom: 1.8rem;
+    }
+    .title::after {
+        width: 70px;
+        height: 3px;
+    }
+    .fieldsContainer { /* Ajuste para móviles */
+        grid-template-columns: 1fr; /* Siempre una columna en móviles */
+        padding: 1rem;
+        gap: 1.2rem;
+    }
+    .column { /* Estos estilos aún aplican a los divs .column */
+        padding: 0; /* Ya no necesitan padding, lo tiene fieldsContainer */
+        gap: 1rem;
+    }
+    input, select {
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
+        border-radius: 6px;
+    }
+    label {
+        font-size: 0.9rem;
+    }
+    .submitButton {
+        width: 75%;
+        max-width: 300px;
+        font-size: 1rem;
+        padding: 0.8rem 1.2rem;
+        margin-top: 1.8rem;
+        border-radius: 8px;
+    }
+    .sectionTitle {
+        font-size: 1.3rem;
+        margin-bottom: 0.8rem;
+        padding-bottom: 0.4rem;
+    }
+    .sectionTitle::before {
+        height: 55%;
+        width: 4px;
+    }
+}
+
+/* Móviles pequeños (hasta 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding: 0.8rem;
+    }
+    .form {
+        padding: 1.2rem;
+        padding-top: 1rem;
+        gap: 1rem;
+        border-radius: 10px;
+    }
+    .title {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+    }
+    .title::after {
+        width: 40px;
+        height: 2px;
+    }
+    .fieldsContainer { /* Ajuste para móviles pequeños */
+        padding: 0.8rem;
+        gap: 1rem;
+    }
+    .column {
+        padding: 0;
+        gap: 0.8rem;
+    }
+    input, select {
+        padding: 0.7rem;
+        font-size: 0.85rem;
+        border-radius: 5px;
+    }
+    label {
+        font-size: 0.8rem;
+    }
+    .submitButton {
+        width: 90%;
+        font-size: 0.9rem;
+        padding: 0.7rem 0.9rem;
+        margin-top: 1.5rem;
+        border-radius: 6px;
+    }
+    .sectionTitle {
+        font-size: 1.1rem;
+        margin-bottom: 0.6rem;
+    }
+    .sectionTitle::before {
+        height: 45%;
+        width: 3px;
+    }
+}
