@@ -17,7 +17,7 @@ export default function NotificationDropdown({ visible, onClose }) {
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                onClose();
+                onClose(); // Cierra el dropdown si se hace clic fuera
             }
         };
 

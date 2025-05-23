@@ -1,5 +1,4 @@
-// components/NavBarWithButtons.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaBell, FaRegBell } from 'react-icons/fa';
 import styles from '../styles/NavBarWithButtons.module.css';
 import LogoBaseKids from '../assets/LogoBaseKids.png';
@@ -13,6 +12,9 @@ export default function NavBarWithButtons() {
     const [showUserMenu, setShowUserMenu] = useState(false);
     const [user, setUser] = useState({ nombre: '', rol: '' });
 
+    const notificationRef = useRef(null);
+    const userMenuRef = useRef(null);
+
     useEffect(() => {
         // Carga de notificaciones y conteo de nuevas
         axios.get('http://localhost:3000/notificaciones')
@@ -25,6 +27,25 @@ export default function NavBarWithButtons() {
         // Carga usuario activo de localStorage
         const stored = localStorage.getItem('user');
         if (stored) setUser(JSON.parse(stored));
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                notificationRef.current &&
+                !notificationRef.current.contains(event.target)
+            ) {
+                setShowNotifications(false);
+            }
+            if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+                setShowUserMenu(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, []);
 
     const toggleNotifications = () => {
@@ -62,7 +83,10 @@ export default function NavBarWithButtons() {
                 </button>
 
                 {/* Notificaciones */}
-                <div style={{ position: 'relative', display: 'inline-block' }}>
+                <div
+                    style={{ position: 'relative', display: 'inline-block' }}
+                    ref={notificationRef}
+                >
                     <button
                         className={styles.notificationButton}
                         onClick={toggleNotifications}
@@ -75,11 +99,17 @@ export default function NavBarWithButtons() {
                     {notificationCount > 0 && (
                         <span className={styles.notificationBadge}>{notificationCount}</span>
                     )}
-                    <NotificationDropdown visible={showNotifications} />
+                    <NotificationDropdown
+                        visible={showNotifications}
+                        onClose={() => setShowNotifications(false)}
+                    />
                 </div>
 
                 {/* Usuario */}
-                <div style={{ position: 'relative', display: 'inline-block' }}>
+                <div
+                    style={{ position: 'relative', display: 'inline-block' }}
+                    ref={userMenuRef}
+                >
                     <button
                         className={styles.userButton}
                         onClick={toggleUserMenu}
@@ -90,7 +120,7 @@ export default function NavBarWithButtons() {
                     <UserDropdown
                         visible={showUserMenu}
                         nombre={user.nombre}
-                        rol={user.rol}
+                        onClose={() => setShowUserMenu(false)}
                     />
                 </div>
             </div>

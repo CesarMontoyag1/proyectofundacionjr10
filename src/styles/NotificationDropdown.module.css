@@ -8,10 +8,12 @@
     border-radius: 8px;
     width: 320px; /* Ancho ajustado para la línea */
     padding: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     z-index: 100;
     font-family: Arial, sans-serif;
     font-size: 0.8em; /* ¡Más pequeño! */
+    max-height: 300px; /* Altura máxima para habilitar scroll */
+    overflow-y: auto; /* Habilitar scroll vertical */
 }
 
 .dropdown h4 {
@@ -64,7 +66,7 @@
     justify-content: center;
     min-width: 16px;
     height: 16px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 /* Estilos de la campana y botón de notificación */
