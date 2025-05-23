@@ -43,7 +43,7 @@
 
 .textContainer {
     text-align: center; /* Centrar el texto */
-    margin-top: 6rem; /* Espaciado superior */
+    margin-top: 3rem; /* Espaciado superior */
 }
 
 .title {
@@ -57,4 +57,83 @@
     font-size: 1rem; /* Tamaño del texto */
     color: #333; /* Color gris oscuro */
     line-height: 1.6; /* Espaciado entre líneas */
+}
+
+.instagramLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: inherit;
+    margin: 2rem auto 0;
+    font-size: 1.5rem; /* Aumenta el tamaño del texto */
+    padding: 1rem 2rem; /* Agrega relleno para hacerlo más grande */
+}
+
+.icon {
+    width: 40px; /* Aumenta el tamaño del ícono */
+    height: 40px;
+    margin-right: 12px; /* Incrementa el espaciado entre el ícono y el texto */
+}
+
+.subtitle {
+    font-size: 1.25rem; /* Tamaño del subtítulo */
+    font-weight: bold;
+    color: #555; /* Color gris */
+    margin: 1rem 0; /* Espaciado superior e inferior */
+    text-align: center; /* Centrar el texto */
+}
+.socialLinks {
+    display: flex;
+    justify-content: center; /* Centra los enlaces horizontalmente */
+    gap: 0rem; /* Espaciado entre los íconos */
+    margin-top: 1rem; /* Espaciado superior */
+}
+
+.socialLink {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.icon {
+    width: 40px; /* Tamaño del ícono */
+    height: 40px;
+}
+.facebookIcon {
+    width: 50px; /* Tamaño más grande para el ícono de Facebook */
+    height: 50px;
+}
+
+.officialPageLink .icon {
+    width: 60px; /* Aumenta el tamaño del ícono */
+    height: 60px;
+    margin-right: 20px; /* Espaciado hacia la derecha */
+    margin-left: 20px; /* Espaciado hacia la izquierda */
+    margin-top: 10px;
+}
+
+
+
+.additionalText {
+    font-size: 1rem; /* Tamaño del texto */
+    color: #555; /* Color gris */
+    margin-top: 0.5rem; /* Espaciado superior */
+    display: block; /* Asegura que esté en una nueva línea */
+    text-align: center; /* Centra el texto */
+}
+
+.phoneIcon {
+    width: 20px; /* Ajusta el tamaño del ícono */
+    height: 20px;
+    margin-left: 8px; /* Espaciado entre el número y el ícono */
+    vertical-align: middle; /* Alinea el ícono con el texto */
+}
+
+.emailIcon {
+    width: 20px; /* Ajusta el tamaño del ícono */
+    height: 20px;
+    margin-left: 8px; /* Espaciado entre el correo y el ícono */
+    vertical-align: middle; /* Alinea el ícono con el texto */
 }
