@@ -1,34 +1,65 @@
-import React, { useState, useEffect } from 'react';
-import { FaBell } from 'react-icons/fa';
+import React, { useState, useEffect, useRef } from 'react';
+import { FaBell, FaRegBell } from 'react-icons/fa';
 import styles from '../styles/NavBarWithButtons.module.css';
 import LogoBaseKids from '../assets/LogoBaseKids.png';
 import NotificationDropdown from './NotificationDropdown';
+import UserDropdown from './UserDropdown';
 import axios from 'axios';
 
 export default function NavBarWithButtons() {
     const [showNotifications, setShowNotifications] = useState(false);
     const [notificationCount, setNotificationCount] = useState(0);
+    const [showUserMenu, setShowUserMenu] = useState(false);
+    const [user, setUser] = useState({ nombre: '', rol: '' });
+
+    const notificationRef = useRef(null);
+    const userMenuRef = useRef(null);
 
     useEffect(() => {
+        // Carga de notificaciones y conteo de nuevas
         axios.get('http://localhost:3000/notificaciones')
             .then(res => {
-                const { notificaciones, nuevas } = res.data;
-                setNotificationCount(nuevas ? 1 : 0); // Muestra la señal roja solo si hay nuevas
+                const { nuevas, notificaciones } = res.data;
+                setNotificationCount(nuevas ? notificaciones.length : 0);
             })
             .catch(console.error);
+
+        // Carga usuario activo de localStorage
+        const stored = localStorage.getItem('user');
+        if (stored) setUser(JSON.parse(stored));
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                notificationRef.current &&
+                !notificationRef.current.contains(event.target)
+            ) {
+                setShowNotifications(false);
+            }
+            if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+                setShowUserMenu(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, []);
 
     const toggleNotifications = () => {
         if (!showNotifications && notificationCount > 0) {
+            // Marcar como vistas
             axios.post('http://localhost:3000/notificaciones/leer')
-                .then(() => setNotificationCount(0)) // Elimina la señal roja
+                .then(() => setNotificationCount(0))
                 .catch(console.error);
         }
-        setShowNotifications(!showNotifications);
+        setShowNotifications(v => !v);
     };
 
-    const closeNotifications = () => {
-        setShowNotifications(false);
+    const toggleUserMenu = () => {
+        setShowUserMenu(v => !v);
     };
 
     return (
@@ -40,25 +71,58 @@ export default function NavBarWithButtons() {
                 </h1>
             </div>
             <div className={styles.buttonsContainer}>
-                <button className={styles.menuTextButton}>Menú</button>
+                {/* Botón Menú */}
+                <button
+                    className={styles.menuTextButton}
+                    onClick={() => {
+                        if (user.rol === 'profesor') window.location.href = '/menu-profe';
+                        else if (user.rol === 'administrativo') window.location.href = '/menu-admin';
+                    }}
+                >
+                    Menú
+                </button>
 
-                <div style={{ position: 'relative' }}>
+                {/* Notificaciones */}
+                <div
+                    style={{ position: 'relative', display: 'inline-block' }}
+                    ref={notificationRef}
+                >
                     <button
                         className={styles.notificationButton}
                         onClick={toggleNotifications}
                         aria-label="Notificaciones"
                     >
-                        <FaBell className={styles.notificationIcon} />
-                        {notificationCount > 0 && (
-                            <span className={styles.notificationBadge}>
-                                {notificationCount}
-                            </span>
-                        )}
+                        {notificationCount > 0
+                            ? <FaBell className={styles.notificationIcon} />
+                            : <FaRegBell className={styles.notificationIcon} />}
                     </button>
-                    <NotificationDropdown visible={showNotifications} onClose={closeNotifications} />
+                    {notificationCount > 0 && (
+                        <span className={styles.notificationBadge}>{notificationCount}</span>
+                    )}
+                    <NotificationDropdown
+                        visible={showNotifications}
+                        onClose={() => setShowNotifications(false)}
+                    />
                 </div>
 
-                <button className={styles.userButton}>Usuario</button>
+                {/* Usuario */}
+                <div
+                    style={{ position: 'relative', display: 'inline-block' }}
+                    ref={userMenuRef}
+                >
+                    <button
+                        className={styles.userButton}
+                        onClick={toggleUserMenu}
+                        aria-label="Usuario"
+                    >
+                        Usuario
+                    </button>
+                    <UserDropdown
+                        visible={showUserMenu}
+                        nombre={user.nombre}
+                        onClose={() => setShowUserMenu(false)}
+                    />
+                </div>
             </div>
         </nav>
     );

@@ -56,6 +56,7 @@ app.post('/login', (req, res) => {
             const user = results[0];
             return res.json({
                 success: true,
+                nombre: user.nombre,
                 rol: user.rol
             });
         } else {

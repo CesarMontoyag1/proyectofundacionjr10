@@ -1,0 +1,60 @@
+/* styles/UserDropdown.module.css */
+.dropdown {
+    position: absolute;
+    top: 45px; /* Ajusta esto para que quede justo debajo del botón de usuario */
+    right: 0;
+    background: white;
+    color: #333;
+    border: 1px solid #ddd; /* Borde sutil */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 12px 15px; /* Espaciado interno mejorado */
+    width: 180px; /* Ancho ligeramente mayor para una mejor apariencia */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Sombra suave para darle profundidad */
+    z-index: 100;
+    font-family: Arial, sans-serif; /* Consistencia en la fuente */
+    animation: fadeIn 0.2s ease-out; /* Animación de aparición suave */
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.userInfo {
+    margin: 0 0 10px; /* Margen inferior para separar del botón */
+    font-weight: bold; /* Nombre del usuario más destacado */
+    font-size: 0.95rem; /* Tamaño de fuente ligeramente mayor y legible */
+    color: #007bff; /* Color azul para el nombre de usuario */
+    text-align: center; /* Centrar el mensaje de bienvenida */
+}
+
+.separator {
+    height: 1px;
+    background-color: #eee; /* Línea separadora sutil */
+    margin: 8px 0; /* Margen para la línea */
+}
+
+.actionButton {
+    width: 100%; /* El botón ocupa todo el ancho */
+    background: none;
+    border: none;
+    padding: 10px 15px; /* Más padding para que sea más fácil de cliquear */
+    text-align: center; /* Centrar el texto del botón */
+    font-size: 0.9rem;
+    color: #555; /* Color de texto más suave */
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease; /* Transiciones suaves */
+    border-radius: 6px; /* Ligeramente redondeado */
+}
+
+.actionButton:hover {
+    background-color: #f0f0f0; /* Fondo gris claro al pasar el mouse */
+    color: #000; /* Texto más oscuro al pasar el mouse */
+}
