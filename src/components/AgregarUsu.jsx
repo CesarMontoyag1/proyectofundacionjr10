@@ -15,6 +15,7 @@ export default function AgregarUsu() {
         email: '',
     });
 
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
