@@ -175,10 +175,10 @@ export default function EditareliminarEstudiante() {
                                 )}
                                 {key === 'modalidad' && (
                                     <>
-                                      <option value="">Seleccionar</option>
                                       <option value="Futbol">Fútbol</option>
                                       <option value="Volleyball">Volleyball</option>
                                       <option value="Basketball">Basketball</option>
+                                      <option value="Natacion">Natación</option>
                                       <option value="Recreacion">Recreación</option>
                                     </>
                                 )}
