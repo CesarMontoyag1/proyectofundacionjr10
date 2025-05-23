@@ -21,34 +21,34 @@ export default function Nosotros() {
                 <div className={`${styles.circle} ${styles.circle1}`}>
                     <span className={styles.defaultText}>IMPACTO</span>
                     <span className={styles.hoverText}>
-                        <div> ⚽ ⚽ ⚽</div>
+
                         <div>4535 Niños, niñas y adolescentes</div>
                         <div>1.970 Madres, padres y familiares.</div>
                         <div>88.608 Complementos nutricionales</div>
                         <div>81.540 Horas de tutorías</div>
-                        <div> ⚽ ⚽ ⚽</div>
+
                     </span>
                 </div>
                 <div className={`${styles.circle} ${styles.circle2}`}>
                     <span className={styles.defaultText}>¿QUÉ HACEMOS?</span>
                     <span className={styles.hoverText}>
-                        <div> ⚽ ⚽ ⚽</div>
+
                         <div>1. Mentorías para el alto rendimiento.</div>
                         <div>2. Intervenciones sociales y empresariales</div>
                         <div>3. Investigación social</div>
                         <div>4. Proyectos especiales para el valor social</div>
-                        <div> ⚽ ⚽ ⚽</div>
+
                     </span>
                 </div>
                 <div className={`${styles.circle} ${styles.circle3}`}>
                     <span className={styles.defaultText}>CAMPOS DE TRABAJO</span>
                     <span className={styles.hoverText}>
-                        <div> ⚽ ⚽ ⚽</div>
+
                         <div>1. Desarrollo Humano</div>
                         <div>2. Seguridad Vial</div>
                         <div>3. Alto Rendimiento en equipos y comunidades</div>
                         <div>4. Convivencia y reconciliación</div>
-                        <div> ⚽ ⚽ ⚽</div>
+
                     </span>
                 </div>
             </div>

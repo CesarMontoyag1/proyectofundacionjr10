@@ -80,24 +80,31 @@ export default function EditareliminarEstudiante() {
   };
 
   const handleEliminar = async () => {
-    // Confirmación antes de eliminar
     if (!window.confirm('¿Estás seguro de que quieres desactivar este estudiante?')) {
       return;
     }
 
     const { numDoc, tipoDoc, modalidad, dias } = estuData;
-    const payload = { numDoc, tipoDoc, modalidad, dias }; // Asegúrate de enviar los campos correctos para la identificación
+    const payload = { numDoc, tipoDoc, modalidad, dias };
+
     try {
       const resp = await fetch('http://localhost:3000/eliminarEstudiante', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
+
+      const contentType = resp.headers.get('Content-Type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const errorText = await resp.text();
+        throw new Error(`Respuesta no válida del servidor: ${errorText}`);
+      }
+
       const data = await resp.json();
       if (!resp.ok) return alert(data.message || 'Error desactivando estudiante');
       alert('Estudiante desactivado exitosamente');
-      setEstuData(null); // Limpiar formulario después de eliminar
-      setFormData({ tipoDoc: '', numDoc: '' }); // Resetear campos de búsqueda
+      setEstuData(null);
+      setFormData({ tipoDoc: '', numDoc: '' });
     } catch (err) {
       alert(`Error de red al desactivar estudiante: ${err.message}`);
     }

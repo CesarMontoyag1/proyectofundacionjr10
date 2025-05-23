@@ -1,9 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap');
+
+
+
 .aboutSection {
     position: relative;
     width: 100%;
     height: auto; /* Cambia de 100% a auto para que crezca con el contenido */
     padding-bottom: 5rem; /* Añade espacio adicional hacia abajo */
 }
+
 
 .circle {
     border-radius: 50%;
@@ -17,7 +23,7 @@
 }
 
 .circle:hover {
-    background-color: rgba(255, 255, 255, 0.75)
+    background-color: rgba(255, 255, 255, 0.78)
 }
 
 .defaultText,
@@ -33,15 +39,16 @@
 .defaultText {
     position: absolute;
     color: white;
-    font-size: 2rem; /* Aumenta el tamaño de la letra */
+    font-size: 5rem; /* Ajusta el tamaño según sea necesario */
     font-weight: bold;
     text-align: center;
     transition: opacity 0.3s ease;
-    font-family: 'bobby jones', sans-serif; /* Cambia la tipografía */
+    font-family: 'Amatic SC', sans-serif; /* Aplica la tipografía */
 }
 
 .hoverText {
     opacity: 0;
+    font-family: 'Kumbh Sans', sans-serif; /* Aplica la tipografía */
 }
 
 .circle:hover .defaultText {

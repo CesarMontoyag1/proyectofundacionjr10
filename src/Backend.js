@@ -484,6 +484,38 @@ app.post('/editarEstudiante', (req, res) => {
 });
 
 /** “ELIMINAR” ESTUDIANTE → SOFT-DELETE **/
+app.post('/eliminarEstudiante', (req, res) => {
+    console.log('eliminarEstudiante → body recibido:', req.body);
+    const { numDoc, tipoDoc, modalidad, dias } = req.body;
+
+    if (!numDoc || !tipoDoc || !modalidad || !dias) {
+        return res
+            .status(400)
+            .json({ success: false, message: 'Faltan datos requeridos: número/tipo de documento, modalidad o días' });
+    }
+
+    const query = `
+        UPDATE estudiantes
+        SET activo = 0
+        WHERE numDoc = ? AND tipoDoc = ? AND modalidad = ? AND dias = ? AND activo = 1
+    `;
+    db.query(query, [numDoc, tipoDoc, modalidad, dias], (err, results) => {
+        if (err) {
+            console.error('Error en /eliminarEstudiante:', err);
+            return res
+                .status(500)
+                .json({ success: false, message: 'Error interno del servidor' });
+        }
+        if (results.affectedRows === 0) {
+            return res
+                .status(404)
+                .json({ success: false, message: 'Estudiante no encontrado o ya inactivo' });
+        }
+        res.json({ success: true, message: 'Estudiante desactivado exitosamente' });
+    });
+});
+
+
 // Endpoint para obtener asistencias por modalidad (ya existente)
 app.post('/obtenerAsistenciasPorModalidad', (req, res) => {
     const { fechaInicio, fechaFin } = req.body;
